@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/img20.jpg')}}" type="image/x-icon">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='Font-Awesome/css/all.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+  <title>{{titre}}</title>
+</head>
+<body class="container-fluid-md create-post">
+  <p class="text-center my-4 text-dark fw-3 fs-3">Découvrez l'univers captivant de la création d'articles et donnez vie à vos idées avec style et originalité.
+  </p>
+ <div class="post my-5 vh-100 ">
+
+  <form action="/addpost" method="POST" class="container-md post w-50 my-5 ">
+      <h3 class="text-center text-success">Bienvenue sur Djib Blogger</h3>
+    <div class="mb-3 ">
+      <label for="Exampletitre " class="form-label mt-3 fs-5" >Titre</label>
+      <input type="text" class="form-control" id="Exampletitre" style="height: 50px" name="titre">
+     
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputauthor" class="form-label">Auteur</label>
+      <input type="text" class="form-control" id="exampleInputauthor" >
+    </div>
+    <div class="mb-1">
+      <!-- <label for="floatingTextarea2" class="form-label">Contenu</label> -->
+      <textarea class="form-control" placeholder="Redigez un contenu" style="height: 180px" name="contenu"></textarea>
+    </div>
+    <!-- <label class="form-label p-3" for="customFile"></label>
+    <input type="file" class="form-control mb-3 p-3" id="customFile" name="image" /> -->
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary my-3 " style="width: 80%;">Créer un article</button>
+    </div>
+   
+  </form>
+
+ </div>
+  <script src=" {{url_for('static',filename='js/bootstrap.bundle.css')}} "></script>
+</body>
+</html>
+

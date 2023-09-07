@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Font-Awesome/css/all.css')}}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}"> -->
+    
+</head>
+
+<section class="container">
+  <div class="row justify-content-center">
+    <div class="col-sm-8">
+        <h2 class="py-3">User dashboard</h2>
+        <p><b>Nom Utilisateur</b> {{user.username}} </p>
+        <p><b>Email Utilisateur</b> {{user.email}} </p>
+        <a href="/logout" class="btn btn-dark">logout</a>
+    </div>
+  </div>
+</section>
+
+
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.js')}}"></script>
+</body>
+</html>
+
+     
