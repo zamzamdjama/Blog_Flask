@@ -19,17 +19,22 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mysqldb import MySQL,MySQLdb
 import bcrypt
 
+
 # app= Flask(__name__) 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///blog.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost/blog'
+# app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///blog.db'
 # app.config['MYSQL_HOST'] = 'localhost'
 # app.config['MYSQL_USER'] = 'root'
 # app.config['MYSQL_PASSWORD'] = ''
 # app.config['MYSQL_DB'] = 'users'
 # app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # mysql=MySQL(app)
-db=SQLAlchemy(app)
+
+# db=SQLAlchemy(app)
+db = SQLAlchemy()
+db.init_app(app)
 app.secret_key='this_is_my_secret_key'
 
 # Create table User
@@ -48,7 +53,7 @@ class User(db.Model):
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'),self.password.encode('utf-8'))
 with app.app_context():
-    db.create_all()    
+    db.create_all()   
 
 # Create table Post
 
@@ -57,13 +62,14 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), unique=True, nullable=False)
     body = db.Column(db.Text, nullable=False)
-    image = db.Column(db.String(150), nullable=False, default='no-image.jpg')
+    Nom = db.Column(db.String(200), unique=True, nullable=False)
+    # image = db.Column(db.String(150), nullable=False, default='no-image.jpg')
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-def __init__(self, title, body, image, date_pub):
+def __init__(self, title, body, Nom, date_pub):
     self.title=title
     self.body=body
-    self.image=image
+    self.Nom=Nom
     self.date_pub=date_pub
 
 with app.app_context():
@@ -188,18 +194,19 @@ def users():
 @app.route('/posts')
 def posts():
     posts= Post.query.order_by(Post.date_pub)
-    return render_template('admin/posts/posts.html',posts=posts)    
+    return render_template('posts/posts.html',posts=posts)    
 
 @app.route('/addpost',methods=["GET","POST"])
 def addpost():
     if request.method== "POST":
         title = request.form['titre']
+        Nom=request.form['auteur']
         body = request.form['contenu']
-        image = request.form['image']
-        new_post=Post(title=title,body=body,image=image)
+        # image = request.form['image']
+        new_post=Post(title=title,body=body,Nom=Nom)
         db.session.add(new_post)
         db.session.commit()
-        return url_for('/posts')
+        return url_for('posts')
     return render_template('posts/createpost.html', titre='création des articles')
 
 
@@ -213,6 +220,9 @@ def page_not_found(e):
     return render_template('404.html'),404
 
 if __name__=='__main__':
+    # with app.app_context():
+    #     db.create_all()
+    
     app.run(debug=True, port=3000)
 
 
