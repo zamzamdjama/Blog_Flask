@@ -18,6 +18,8 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_mysqldb import MySQL,MySQLdb
 import bcrypt
+from flask_login import *
+from flask_migrate import Migrate
 
 
 # app= Flask(__name__) 
@@ -34,11 +36,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost/
 
 # db=SQLAlchemy(app)
 db = SQLAlchemy()
+migrate=Migrate(app, db)
 db.init_app(app)
 app.secret_key='this_is_my_secret_key'
 
 # Create table User
-class User(db.Model):
+class User(db.Model, UserMixin):
     id=db.Column(db.Integer, primary_key=True)
     username=db.Column(db.String(100), nullable=False)
     email=db.Column(db.String(100), unique=True)
@@ -213,6 +216,11 @@ def addpost():
 @app.route('/articles')
 def articles():
     return render_template('articles.html')
+
+
+@app.route('/NiceAdmin')
+def NiceAdmin():
+    return render_template('NiceAdmin/index.html')
 
 # Invalid URL
 @app.errorhandler(404)
