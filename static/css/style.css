@@ -1,94 +1,13 @@
-@font-face {
-    font-family: 'Candal';
-    src: url("../fonts/Candal-Regular.ttf");
-}
-
-@font-face {
-    font-family: 'Lora';
-    src: url("../fonts/Lora-Regular.ttf");
-}
-
 *{
-    font-family: Arial, Helvetica, sans-serif; 
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    font-family:sans-serif;
 }
-body{
-  background: #f1ecec;
+.nav-item .nav-link {
+    font-size: 20px;
+    color: black;
 }
-/* nav .navbar div h5.navbar-brand span{
-    font-family: 'Candal';
-    font-size: 25px;
-} */
-.navbar-nav .nav-item .nav-link{
-    font-weight: 500;
-    font-size: 18px;
-    /* letter-spacing: 1px; */
-}
-
-.home{
-    height: 100vh;
-    width: 100%;
-    background-image: url(../images/BG1.jpeg);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    
-    
-}
-.section1{
-    margin: 15px;
-    background: #efefef;
-    border-radius: 5px;
-}
-.section1,p,h4{
-   
-    font-size: 15px;
-}
-.section2{
-    background-image: url(../images/BG2.jpeg);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    width: 100%;
-    
-}
-.section2 h5{
-   
-    /* color:  #41db51; */
-    font-size: 25px;
-    word-spacing: 5px;
-    letter-spacing: 2px;
-    font-weight: 400;
-  
-}
-/* .section2 hr{
-    width: 12%;
-    border: 1px solid white;
-} */
-
-.create-post{
-    background-image: url(../images/img8.jpg);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    
-}
-.post{
-    background-color: #f1f0f0;
-    
-}
-.post p{
-    margin-top: 50px;
-    
-}
-
-footer{
-    width: 100%;
-    background: #626262;
-    color: white;
+hr.line-article{
+    margin: 0 30px;
+    width: 20%;
 }

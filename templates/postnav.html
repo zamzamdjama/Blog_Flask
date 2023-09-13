@@ -11,15 +11,15 @@
 <body>
 
   <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
-    <div class="container-fluid align-items-center" style="height: 100%;">
-      <h3 class="text-uppercase "> <span class="text-success fw-bold">Djib</span> Blogger </h3>
+    <div class="container-fluid " style="height: 100%;">
+      <h3 class="text-uppercase fw-bold"> <span class="text-success fw-bold">Djib</span> Blogger </h3>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon "></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav m-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link mx-3" aria-current="page" href="{{ url_for('index')}}">Accueil</a>
+            <a class="nav-link mx-3" aria-current="page" href="/">Accueil</a>
           </li>
           <li class="nav-item">
             <a class="nav-link mx-3" href="/posts">Articles</a>
@@ -31,7 +31,14 @@
             <a class="nav-link mx-3" href="#">Contact</a>
           </li>
         </ul>
-        <a class="btn btn-success px-3 mx-3 fs-5" href="/login" >Login</a>
+     
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>       
+          
       </div>
     </div>
   </nav>
@@ -40,7 +47,7 @@
   
   <section class="">
     <!-- Footer -->
-    <footer class="text-center text-white mt-2" style="background-color: #19191a;">
+    <footer class="text-center text-white mt-2 fixed-bottom" style="background-color: #19191a;">
       <!-- Grid container -->
       <div class="container p-4 pb-0">
         <!-- Section: CTA -->
