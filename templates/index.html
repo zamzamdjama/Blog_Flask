@@ -40,7 +40,14 @@
         </p>
         <p class="text-center"> 
           <a href="#articles" type="button" class="btn btn-success m-3 px-4 py-2">Savoir Plus</a>
+          {% if session['username'] %}
+          <a href="/addpost" type="button" class="btn btn-dark p-2 ">Créer un article</a>
+         
+          {%else%}
           <a href="/login" type="button" class="btn btn-dark p-2 ">Créer un article</a>
+            <!-- <a class="nav-link" href="/login">Créer un article</a> -->
+          {% endif %}
+          
         </p>
       </div>
     

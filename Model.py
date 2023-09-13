@@ -26,6 +26,11 @@ from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost/blog'
+
+
+# app.config["SESSION_PERMANENT"] = False
+# app.config["SESSION_TYPE"] = "filesystem"
+# session(app)
 # app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///blog.db'
 # app.config['MYSQL_HOST'] = 'localhost'
 # app.config['MYSQL_USER'] = 'root'
@@ -45,6 +50,7 @@ class User(db.Model, UserMixin):
     id=db.Column(db.Integer, primary_key=True)
     username=db.Column(db.String(100), nullable=False)
     email=db.Column(db.String(100), unique=True)
+    Admin=db.Column(db.Boolean, nullable=True)
     password= db.Column(db.String(100))
     
 
@@ -77,11 +83,70 @@ def __init__(self, title, body, Nom, date_pub):
 
 with app.app_context():
     db.create_all()    
+    
+    
+class Postpublie(db.Model):
+    __searchable__ = ['title', 'body']
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), unique=True, nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    Nom = db.Column(db.String(200), unique=True, nullable=False)
+    # image = db.Column(db.String(150), nullable=False, default='no-image.jpg')
+    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+def __init__(self, title, body, Nom, date_pub):
+    self.title=title
+    self.body=body
+    self.Nom=Nom
+    self.date_pub=date_pub
+
+with app.app_context():
+    db.create_all()   
+    
+class PostAttent(db.Model):
+    __searchable__ = ['title', 'body']
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), unique=True, nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    Nom = db.Column(db.String(200), unique=True, nullable=False)
+    # image = db.Column(db.String(150), nullable=False, default='no-image.jpg')
+    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+def __init__(self, title, body, Nom, date_pub):
+    self.title=title
+    self.body=body
+    self.Nom=Nom
+    self.date_pub=date_pub
+
+with app.app_context():
+    db.create_all() 
+    
+class PostRejeter(db.Model):
+    __searchable__ = ['title', 'body']
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), unique=True, nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    Nom = db.Column(db.String(200), unique=True, nullable=False)
+    # image = db.Column(db.String(150), nullable=False, default='no-image.jpg')
+    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+def __init__(self, title, body, Nom, date_pub):
+    self.title=title
+    self.body=body
+    self.Nom=Nom
+    self.date_pub=date_pub
+
+with app.app_context():
+    db.create_all()   
 
 # Index
 @app.route('/')
 def index():
-    return render_template('index.html')
+    users= User.query.order_by(User.id)
+    return render_template('index.html', users=users)
 
 
 # Register
@@ -133,14 +198,21 @@ def login():
 @app.route("/user/<int:id>/delete", methods=["GET", "POST"])
 def user_delete(id):
     user = db.get_or_404(User, id)
+    session.pop('user.email',None)
+    session.pop('user.username',None)
+    userDelete=db.session.delete(user)
+    db.session.commit()
+    
+    # if request.method == "POST":
+    #     db.session.delete(user)
+    #     db.session.commit()
+    #     flash("Suppression Effectuée","delete")
+    #     return redirect(url_for("GestionUser"))
+    if   not userDelete:
+        return redirect(url_for('GestionUser'))
+        
 
-    if request.method == "POST":
-        db.session.delete(user)
-        db.session.commit()
-        flash("Suppression Effectuée","delete")
-        return redirect(url_for("users"))
-
-    return render_template("admin/users/delete.html", user=user) 
+    return render_template("NiceAdmin/tables-data.html") 
  
 @app.route("/user/<int:id>/update", methods=["GET", "POST"])
 def user_update(id):
@@ -152,7 +224,7 @@ def user_update(id):
         db.session.commit()
         flash('Modification Effectuée','update')
         return redirect(url_for("users"))
-    return render_template("admin/users/edit.html", user=user)     
+    return render_template("/user/edit.html", user=user)     
 
 # Dashboard admin
 @app.route('/dashboardadmin')
@@ -184,7 +256,8 @@ def dashboard():
 @app.route('/logout')
 def logout():
     session.pop('email',None)
-    return redirect('/login')
+    session.pop('username',None)
+    return redirect('/')
 
 # users
 @app.route('/users')
@@ -206,7 +279,7 @@ def addpost():
         Nom=request.form['auteur']
         body = request.form['contenu']
         # image = request.form['image']
-        new_post=Post(title=title,body=body,Nom=Nom)
+        new_post=PostAttent(title=title,body=body,Nom=Nom)
         db.session.add(new_post)
         db.session.commit()
         return url_for('posts')
@@ -220,16 +293,118 @@ def articles():
 
 @app.route('/NiceAdmin')
 def NiceAdmin():
-    return render_template('NiceAdmin/index.html')
+    nombreBlogAttent=PostAttent.query.count()
+    nombreBlogRejeter=PostRejeter.query.count()
+    nombreBlogPublier=Postpublie.query.count()
+    dernierBlog=db.session.query(Postpublie).order_by(Postpublie.id.desc()).limit(1).all()
+    users=db.session.execute(db.select(User).order_by(User.id)).scalars()
+    return render_template('NiceAdmin/index.html', nombreBlogAttent=nombreBlogAttent, nombreBlogRejeter=nombreBlogRejeter, nombreBlogPublier=nombreBlogPublier,dernierBlog=dernierBlog,users=users )
 
+@app.route('/users-profile/<int:id>/update', methods=["GET", "POST"])
+def usersProfileModifier(id):
+    user = db.session.execute(db.select(User).order_by(User.id)).scalars()
+    if request.method == "POST":
+        user.username=request.form['username']
+        user.email=request.form['email']
+        db.session.commit()
+        flash('Modification Effectuée','update')
+    return render_template('NiceAdmin/users-profile.html', users=user)
+
+
+
+@app.route('/users-profile')
+def usersProfile():
+    return render_template('NiceAdmin/users-profile.html')
+
+@app.route('/utilisateur')
+def GestionUser():
+    users=db.session.execute(db.select(User).order_by(User.id)).scalars()
+    return render_template('NiceAdmin/tables-data.html', users=users)
+
+
+
+
+
+
+
+
+
+
+
+# blog
+@app.route('/Blog-attent')
+def BlogAttent():
+    BlogAttent= PostAttent.query.order_by(PostAttent.date_pub)
+    return render_template('NiceAdmin/BlogAttend.html', BlogAttent=BlogAttent)
+
+
+
+
+# @app.route("/user/<int:id>")
+# def user_detail(id):
+#     user = db.get_or_404(User, id)
+#     return render_template("user/detail.html", user=user)
+@app.route('/Blog-publier/<int:id>/Ajout')
+def BlogPublierAjout(id):
+    Blog = db.get_or_404(PostAttent, id)
+    newBlog=Postpublie(title=Blog.title,body=Blog.body,Nom=Blog.Nom)
+    blogdelete=db.get_or_404(PostAttent, id)
+    db.session.delete(blogdelete)
+    db.session.add(newBlog)
+    db.session.commit()
+    # if newBlog:
+    #     redirect(url_for('BlogPublier'))
+    # BlogPublie= Postpublie.query.order_by(Postpublie.date_pub)
+    return render_template('NiceAdmin/BlogPublier.html')
+
+@app.route('/Blog-publier')
+def BlogPublier():
+    # Blog = db.get_or_404(PostAttent, id)
+    # newBlog=Postpublie(title=Blog.title,body=Blog.body,Nom=Blog.Nom)
+    # db.session.add(newBlog)
+    # db.session.commit()
+    BlogPublie=db.session.execute(db.select(Postpublie).order_by(Postpublie.id)).scalars()
+    # dernierBlog=db.session.execute(db.select(Postpublie)).last()
+
+    # BlogPublie= Postpublie.query.order_by(Postpublie.date_pub)
+    return render_template('NiceAdmin/BlogPublier.html',BlogPublie=BlogPublie )
+
+
+
+
+@app.route('/Blog-rejeter')
+def BlogRejeter():
+    BlogRejeter=db.session.execute(db.select(PostRejeter).order_by(PostRejeter.id)).scalars()
+    return render_template('NiceAdmin/BlogRejeter.html',BlogRejeter=BlogRejeter)
+
+
+@app.route('/Blog-rejeter/<int:id>/delete')
+def BlogrejeterAjout(id):
+    Blog = db.get_or_404(PostAttent, id)
+    newBlog=PostRejeter(title=Blog.title,body=Blog.body,Nom=Blog.Nom)
+    blogdelete=db.get_or_404(PostAttent, id)
+    db.session.delete(blogdelete)
+    db.session.add(newBlog)
+    db.session.commit()
+    if newBlog:
+        redirect(url_for('BlogRejeter'))
+    # BlogPublie= Postpublie.query.order_by(Postpublie.date_pub)
+    return render_template('NiceAdmin/BlogRejeter.html')
 # Invalid URL
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'),404
 
+
+
+
+
+
+
+
 if __name__=='__main__':
-    # with app.app_context():
-    #     db.create_all()
+    with app.app_context():
+        db.create_all()
     
     app.run(debug=True, port=3000)
 

@@ -1,0 +1,52 @@
+{% extends 'NiceAdmin/baseAdmin.html' %}
+{%block content %}         
+   
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Blog Publié</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/NiceAdmin">Acceuil</a></li>
+          <li class="breadcrumb-item">Blog</li>
+          <li class="breadcrumb-item active">publié</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="card-group">
+        {% for blog in BlogPublie %}
+        <div class="card">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    <h5 class="card-title">{{blog.title}}</h5>
+                  </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                  <div class="accordion-body"> <p class="card-text">{{blog.body}}</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a href="/Blog-publier" class="btn btn-primary">publié</a>
+            <a href="#" class="btn btn-danger">Supprimer</a>
+            <small class="text-body-secondary"> {{blog.date_pub}}</small>
+          </div>
+        </div>
+       
+       
+        {% endfor %}
+      </div>
+    </section>
+
+
+  </main><!-- End #main -->
+{%endblock%}
