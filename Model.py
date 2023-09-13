@@ -94,13 +94,15 @@ class Postpublie(db.Model):
     body = db.Column(db.Text, nullable=False)
     #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     Nom = db.Column(db.String(200), unique=True, nullable=False)
-    # image = db.Column(db.String(150), nullable=False, default='no-image.jpg')
+    
+    image = db.Column(db.String(150))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-def __init__(self, title, body, Nom, date_pub):
+def __init__(self, title, body, Nom,image ,date_pub):
     self.title=title
     self.body=body
     self.Nom=Nom
+    self.image=image
     self.date_pub=date_pub
 
 with app.app_context():
@@ -113,13 +115,15 @@ class PostAttent(db.Model):
     body = db.Column(db.Text, nullable=False)
     #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     Nom = db.Column(db.String(200), unique=True, nullable=False)
-    # image = db.Column(db.String(150), nullable=False, default='no-image.jpg')
+    
+    image = db.Column(db.String(150))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-def __init__(self, title, body, Nom, date_pub):
+def __init__(self, title, body, Nom,image, date_pub):
     self.title=title
     self.body=body
     self.Nom=Nom
+    self.image=image
     self.date_pub=date_pub
 
 with app.app_context():
@@ -132,13 +136,15 @@ class PostRejeter(db.Model):
     body = db.Column(db.Text, nullable=False)
     #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     Nom = db.Column(db.String(200), unique=True, nullable=False)
-    # image = db.Column(db.String(150), nullable=False, default='no-image.jpg')
+    
+    image = db.Column(db.String(150))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-def __init__(self, title, body, Nom, date_pub):
+def __init__(self, title, body, Nom,image, date_pub):
     self.title=title
     self.body=body
     self.Nom=Nom
+    self.image=image
     self.date_pub=date_pub
 
 with app.app_context():
@@ -279,7 +285,7 @@ def addpost():
         image = request.form['image']
         
         # image = request.form['image']
-        new_post=PostAttent(title=title,body=body,Nom=Nom)
+        new_post=PostAttent(title=title,body=body,Nom=Nom, image=image)
         db.session.add(new_post)
         db.session.commit()
         return redirect('/posts')
@@ -290,7 +296,7 @@ def addpost():
 # posts
 @app.route('/posts')
 def posts():
-    posts= Post.query.all()
+    posts= Postpublie.query.all()
      
     return render_template('posts.html',posts=posts)    
 
@@ -359,26 +365,19 @@ def BlogAttent():
 @app.route('/Blog-publier/<int:id>/Ajout')
 def BlogPublierAjout(id):
     Blog = db.get_or_404(PostAttent, id)
-    newBlog=Postpublie(title=Blog.title,body=Blog.body,Nom=Blog.Nom)
+    newBlog=Postpublie(title=Blog.title,body=Blog.body,Nom=Blog.Nom, image=Blog.image)
     blogdelete=db.get_or_404(PostAttent, id)
     db.session.delete(blogdelete)
     db.session.add(newBlog)
     db.session.commit()
-    # if newBlog:
-    #     redirect(url_for('BlogPublier'))
-    # BlogPublie= Postpublie.query.order_by(Postpublie.date_pub)
+  
     return render_template('NiceAdmin/BlogPublier.html')
 
 @app.route('/Blog-publier')
 def BlogPublier():
-    # Blog = db.get_or_404(PostAttent, id)
-    # newBlog=Postpublie(title=Blog.title,body=Blog.body,Nom=Blog.Nom)
-    # db.session.add(newBlog)
-    # db.session.commit()
-    BlogPublie=db.session.execute(db.select(Postpublie).order_by(Postpublie.id)).scalars()
-    # dernierBlog=db.session.execute(db.select(Postpublie)).last()
 
-    # BlogPublie= Postpublie.query.order_by(Postpublie.date_pub)
+    BlogPublie=db.session.execute(db.select(Postpublie).order_by(Postpublie.id)).scalars()
+
     return render_template('NiceAdmin/BlogPublier.html',BlogPublie=BlogPublie )
 
 
@@ -393,14 +392,14 @@ def BlogRejeter():
 @app.route('/Blog-rejeter/<int:id>/delete')
 def BlogrejeterAjout(id):
     Blog = db.get_or_404(PostAttent, id)
-    newBlog=PostRejeter(title=Blog.title,body=Blog.body,Nom=Blog.Nom)
+    newBlog=PostRejeter(title=Blog.title,body=Blog.body,Nom=Blog.Nom, image=Blog.image)
     blogdelete=db.get_or_404(PostAttent, id)
     db.session.delete(blogdelete)
     db.session.add(newBlog)
     db.session.commit()
     if newBlog:
         redirect(url_for('BlogRejeter'))
-    # BlogPublie= Postpublie.query.order_by(Postpublie.date_pub)
+   
     return render_template('NiceAdmin/BlogRejeter.html')
 # Invalid URL
 @app.errorhandler(404)
