@@ -60,25 +60,43 @@ with app.app_context():
 class Post(db.Model):
     __searchable__ = ['title', 'body']
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), unique=True, nullable=False)
+    title = db.Column(db.String(200), nullable=False)
     body = db.Column(db.Text, nullable=False)
     Nom = db.Column(db.String(200), unique=True, nullable=False)
-    # image = db.Column(db.String(150), nullable=False, default='no-image.jpg')
+    image = db.Column(db.String(150))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    comments = db.Column(db.Integer,default=0)
 
-def __init__(self, title, body, Nom, date_pub):
+def __init__(self, title, body, Nom, image, date_pub):
     self.title=title
     self.body=body
     self.Nom=Nom
     self.date_pub=date_pub
+    self.image=image
 
 with app.app_context():
     db.create_all()    
 
+# table comments
+
+class Comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=False, nullable=False)
+    email = db.Column(db.String(200), unique=False, nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete='CASCADE'), nullable=False)
+    post = db.relationship('Post', backref=db.backref('posts',lazy=True,
+    passive_deletes=True))
+    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+
+
+
 # Index
 @app.route('/')
 def index():
-    return render_template('index.html')
+    posts= Post.query.order_by(Post.id.desc()).limit(2) 
+    return render_template('index.html',posts=posts)
 
 
 # Register
@@ -88,7 +106,6 @@ def register():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-
         new_user=User(username=username,email=email,password=password)
         db.session.add(new_user)
         db.session.commit()
@@ -102,7 +119,6 @@ def login():
     if request.method== "POST":
         email = request.form['email']
         password = request.form['password']
-
         user=User.query.filter_by(email=email).first()
 
         if user and user.check_password(password):
@@ -117,102 +133,59 @@ def login():
         
     return render_template('login.html')
 
-# @app.route("/users")
-# def user_list():
-#     users = db.session.execute(db.select(User).order_by(User.id)).scalars()
-#     return render_template("user/list.html", users=users)
-
-# @app.route("/user/<int:id>")
-# def user_detail(id):
-#     user = db.get_or_404(User, id)
-#     return render_template("user/detail.html", user=user)
-
-@app.route("/user/<int:id>/delete", methods=["GET", "POST"])
-def user_delete(id):
-    user = db.get_or_404(User, id)
-
-    if request.method == "POST":
-        db.session.delete(user)
-        db.session.commit()
-        flash("Suppression Effectuée","delete")
-        return redirect(url_for("users"))
-
-    return render_template("admin/users/delete.html", user=user) 
- 
-@app.route("/user/<int:id>/update", methods=["GET", "POST"])
-def user_update(id):
-    user = db.get_or_404(User, id)
-
-    if request.method == "POST":
-        user.username=request.form['username']
-        user.email=request.form['email']
-        db.session.commit()
-        flash('Modification Effectuée','update')
-        return redirect(url_for("users"))
-    return render_template("admin/users/edit.html", user=user)     
-
-# Dashboard admin
-@app.route('/dashboardadmin')
-def AdminDashboard():
-    return render_template('DashboardAdmin.html')
 
 
-# admin login
-@app.route('/admin/')
-def adminIndex():
-    return render_template('admin/index.html',title='Admin Login')
 
-# user login
-@app.route('/user/')
-def userIndex():
-    return render_template('user/index.html',title='User Login')
-
-
-# Dashboard
-@app.route('/dashboard')
-def dashboard():
-    if session['username']:
+@app.route('/navpost')
+def navpost():
+       if session['username']:
         user = User.query.filter_by(email=session['email']).first()
-        return render_template('dashboard.html',user=user)
-    
-    return redirect('/login')
+        return render_template('navpost.html',user=user)
+
 
 # Logout
 @app.route('/logout')
 def logout():
     session.pop('email',None)
-    return redirect('/login')
+    return redirect('/')
 
-# users
-@app.route('/users')
-def users():
-    users= User.query.order_by(User.id)
-    return render_template('admin/users/users.html',users=users)
-    
 
-# posts
-@app.route('/posts')
-def posts():
-    posts= Post.query.order_by(Post.date_pub)
-    return render_template('posts/posts.html',posts=posts)    
 
+@app.route('/base')
+def base():
+    return render_template('base.html')    
+
+
+# Add post
 @app.route('/addpost',methods=["GET","POST"])
 def addpost():
     if request.method== "POST":
         title = request.form['titre']
         Nom=request.form['auteur']
         body = request.form['contenu']
-        # image = request.form['image']
-        new_post=Post(title=title,body=body,Nom=Nom)
+        image = request.form['image']
+        new_post=Post(title=title,body=body,Nom=Nom,image=image)
         db.session.add(new_post)
         db.session.commit()
-        return url_for('posts')
-    return render_template('posts/createpost.html', titre='création des articles')
+        return redirect('/posts')
+    
+    user = User.query.filter_by(email=session['email']).first()
+    return render_template('createpost.html', titre='création des articles',user=user)
 
+# posts
+@app.route('/posts')
+def posts():
+    posts= Post.query.all()
+     
+    return render_template('posts.html',posts=posts)    
 
-@app.route('/articles')
-def articles():
-    return render_template('articles.html')
+# Latest_articles
+@app.route('/Latest_articles')
+def Latest_articles():
+    
+    posts= Post.query.order_by(Post.id.desc()).limit(2) 
+
+    return render_template('Latest_articles.html',posts=posts)
 
 # Invalid URL
 @app.errorhandler(404)
@@ -220,8 +193,9 @@ def page_not_found(e):
     return render_template('404.html'),404
 
 if __name__=='__main__':
-    # with app.app_context():
-    #     db.create_all()
+    
+    with app.app_context():
+        db.create_all()
     
     app.run(debug=True, port=3000)
 

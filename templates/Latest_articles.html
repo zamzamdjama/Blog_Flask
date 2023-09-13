@@ -12,23 +12,17 @@
 
 
 
-<section class="container">
-  <div class="row justify-content-center">
-    <div class="col-sm-8">
-      <h2 class="py-3">Nouveau Blog</h2>
-      {% for post in posts %}
-
-      
-      <h1><b>Title :</b> {{post.title}} </h1>
-      <p><b>Contenu</b> {{post.body}} </p>
-      <!-- <p><b>image</b><img src="{{post.image}}" alt=""> </p> -->
-      <p><b>date publication :</b> {{post.date_pub}} </p>
-      <p><b>Auteur :</b> {{post.Nom}} </p>
-      <hr>
-      {% endfor %}
-    </div>
+{% for post in posts %}
+<div class="card mb-3">
+  <img src="{{url_for('static', filename='images/img3.jpg')}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h1 class="card-title text-capitalize text-success">{{post.title}}</h1>
+    <p class="card-text"> {{post.body}} </p>
+    <p class="card-text"><small class="text-body-secondary">created in  {{post.date_pub}} by <b> {{post.Nom}} </b> </small></p>
   </div>
-</section>
+  
+</div>
+{% endfor %}
 
 
 <script src="{{ url_for('static', filename='js/bootstrap.bundle.js')}}"></script>

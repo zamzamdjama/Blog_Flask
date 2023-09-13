@@ -3,203 +3,43 @@
 <h1>{% block title %} Welcome to Djib-blogger {% endblock %}</h1>
 
 {% block content %}
-  <!-- <section class="home p-5 ">
-    <div class="section1 p-5 ">
-      <h4 class="text-center">Exprimez vous librement !</h4>
-      <p class="text-center p1">
-        Rejoignez une communauté dynamique de créateurs sur notre <br>
-        plateforme de Djib-blogger, où les idées prennent vie.
-        
-      </p>
-      <p class="text-center"> <a href="#articles" type="button" class="btn btn-outline-success">En savoir plus</a></p>
-    </div>
-  </section>
-  <div class="section2 py-3 " id="articles">
-    <h5 class="text-center"> Articles récents</h5>
-  </div>   -->
-    <!-- <hr class="m-auto"> -->
-    <!-- {% for article in articles %}
-      <a href="#">
-          <h2>{{ article['title'] }}</h2>
-      </a>
-      <span class="badge badge-primary">{{ article['content'] }}</span>
-      <hr>
-      
-    {% endfor %} -->
-    
-  
-    <!-- section acccueil -->
-  <section class="home  p-5 ">
-    <div class="section1 container-fluid p-5 ">
-      <div class="container py-5">
-        <h4 class="text-center p-2">Exprimez vous librement !</h4>
-        <p class="text-center  p1">
-          Rejoignez une communauté dynamique de créateurs sur notre <br>
-          plateforme de Djib-blogger, où les idées prennent vie.
-          
-        </p>
-        <p class="text-center"> 
-          <a href="#articles" type="button" class="btn btn-success m-3 px-4 py-2">Savoir Plus</a>
-          <a href="/login" type="button" class="btn btn-dark p-2 ">Créer un article</a>
-        </p>
+<div
+class="p-5 mt-3 text-center bg-image"
+style="
+  background-image: url('../static/images/img8.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 400px;
+"
+>
+  <div class="mask mt-3" style="background-color: rgba(0, 0, 0, 0.7); height: 50vh;">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <div class="text-white">
+        <h2 class="mb-3">Créer vos propres articles</h2>
+        <h4 class="mb-3">Plongez dans notre univers</h4>
+        <a class="btn btn-success text-white btn-lg " href="/login" role="button"
+        >Créer un article</a
+        >
       </div>
-    
-      
-    </div>
-  </section>
-  <div class=" section2 py-3  " id="articles">
-    <h3 class="text-center text-white"> Articles récents</h3>
-  </div>  
- <!-- carousel -->
- <div id="carouselExampleAutoplaying " class="carousel slide section2 vh-100" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <!-- card -->
-      <div class="row row-cols-1 row-cols-md-3 g-4">
-          <div class="col">
-            <div class="card h-100">
-              <img src="{{url_for('static',filename='images/img1.jpg')}}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">Last updated 3 mins ago</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="{{url_for('static',filename='images/img2.jpg')}}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">Last updated 3 mins ago</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="{{url_for('static',filename='images/img3.jpg')}}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">Last updated 3 mins ago</small>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
-    <div class="carousel-item">
-      <!-- card -->
-      <div class="row row-cols-1 row-cols-md-3 g-4">
-          <div class="col">
-            <div class="card h-100">
-              <img src="{{url_for('static',filename='images/img4.jpg')}}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">Last updated 3 mins ago</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="{{url_for('static',filename='images/img5.jpg')}}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">Last updated 3 mins ago</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="{{url_for('static',filename='images/img6.jpg')}}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">Last updated 3 mins ago</small>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
-    <div class="carousel-item">
-      <!-- card -->
-      <div class="row row-cols-1 row-cols-md-3 g-4">
-          <div class="col">
-            <div class="card h-100">
-              <img src="{{url_for('static',filename='images/img7.jpg')}}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">Last updated 3 mins ago</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="{{url_for('static',filename='images/img8.jpg')}}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">Last updated 3 mins ago</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="{{url_for('static',filename='images/img9.jpg')}}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">Last updated 3 mins ago</small>
-              </div>
-            </div>
-          </div>
-        </div>
     </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
 </div>
+<h3 class="fw-bold my-5 mx-3 text-uppercase"> Top Articles Recents</h3>
 
-  {% endblock %}  
+{% for post in posts %}
+<div class="card my-3">
+  <img src="{{url_for('static', filename='images/img3.jpg')}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h1 class="card-title text-capitalize text-success">{{post.title}}</h1>
+    <p class="card-text"> {{post.body}} </p>
+    <p class="card-text"><small class="text-body-secondary">created in  {{post.date_pub}} by <b> {{post.Nom}} </b> </small></p>
+  </div>
+  
+</div>
+{% endfor %}
 
+{% endblock %}  
 
-
-
-
-
-
-
-
-  <!-- <footer class="container-fluid">
-    copyright@zamzamdjamadirieh
-  </footer> -->
 
 
 
