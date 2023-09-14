@@ -17,9 +17,12 @@ style="
       <div class="text-white">
         <h2 class="mb-3">Créer vos propres articles</h2>
         <h4 class="mb-3">Plongez dans notre univers</h4>
-        <a class="btn btn-success text-white btn-lg " href="/login" role="button"
-        >Créer un article</a
-        >
+        {% if session['username']%}
+          <a class="btn btn-success text-white btn-lg " href="/addpost" role="button">Créer un article</a>
+        {%else%}
+        <a class="btn btn-success text-white btn-lg " href="/login" role="button">Créer un article</a>
+        {%endif%}
+    
       </div>
     </div>
   </div>

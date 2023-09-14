@@ -30,8 +30,27 @@
           <li class="nav-item">
             <a class="nav-link mx-3" href="#">Contact</a>
           </li>
+          {% if session['username']=='Ali' and session['email']=='Ali@gmail.com'%}
+          <li class="nav-item">
+            <a class="nav-link mx-3" href="/NiceAdmin">Table de bord</a>
+          </li>
         </ul>
-        <a class="btn btn-success px-3 mx-3 fs-5" href="/login" >Login</a>
+
+          <a class="btn btn-success px-3 mx-3 fs-5" href="/logout" >Se deconeceter</a>
+          {%elif  session['username']%}
+
+          <li class="nav-item">
+            <a class="nav-link mx-3" href="">{{session['username']}}</a>
+          </li>
+        </ul>
+        <a class="btn btn-success px-3 mx-3 fs-5" href="/logout" >Se deconeceter</a>
+    
+        
+         
+        {%else%}
+           </ul>
+          <a class="btn btn-success px-3 mx-3 fs-5" href="/login" >Login</a>
+        {%endif%}
       </div>
     </div>
   </nav>
