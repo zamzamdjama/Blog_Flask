@@ -175,14 +175,21 @@ def index():
 # Register
 @app.route('/register',methods=["GET","POST"])
 def register():
+    user=""
     if request.method== "POST":
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        new_user=User(username=username,email=email,password=password)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect('/login')
+        user=User.query.filter_by(email=request.form['email'], username=request.form['username'])
+        try:
+            
+            username = request.form['username']
+            email = request.form['email']
+            password = request.form['password']
+            new_user=User(username=username,email=email,password=password)
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect('/login')
+        except:
+            flash("cette utilisateur existe deja, Veuiilez réessayez")
+            return render_template('register.html')   
     
     return render_template('register.html')
 
@@ -324,9 +331,6 @@ def user_update(id, userName='', Email=''):
     user.username=userName
     user.email=Email
        
- 
-       
-    
     db.session.commit()
     flash('Modification Effectuée','update')
         
@@ -432,10 +436,7 @@ def BlogAttent():
 
 
 
-# @app.route("/user/<int:id>")
-# def user_detail(id):
-#     user = db.get_or_404(User, id)
-#     return render_template("user/detail.html", user=user)
+
 @app.route('/Blog-publier/<int:id>/Ajout')
 def BlogPublierAjout(id):
     Blog = db.get_or_404(PostAttent, id)
@@ -456,13 +457,18 @@ def BlogPublier():
 
     return render_template('NiceAdmin/BlogPublier.html',BlogPublie=BlogPublie )
 
-
-
-
-@app.route('/Blog-rejeter')
-def BlogRejeter():
-    BlogRejeter=db.session.execute(db.select(PostRejeter).order_by(PostRejeter.id)).scalars()
-    return render_template('NiceAdmin/BlogRejeter.html',BlogRejeter=BlogRejeter)
+@app.route('/Blog-rejeter/<int:id>/delete')
+def BlogrejeterAjoutP(id):
+    Blog = db.get_or_404(Postpublie, id)
+    newBlog=PostRejeter(title=Blog.title,body=Blog.body,Nom=Blog.Nom, image=Blog.image)
+    blogdelete=db.get_or_404(Postpublie, id)
+    db.session.delete(blogdelete)
+    db.session.add(newBlog)
+    db.session.commit()
+    if newBlog:
+       return redirect(url_for('BlogRejeter'))
+   
+    return render_template('NiceAdmin/BlogRejeter.html')
 
 
 @app.route('/Blog-rejeter/<int:id>/delete')
@@ -478,6 +484,10 @@ def BlogrejeterAjout(id):
    
     return render_template('NiceAdmin/BlogRejeter.html')
 
+@app.route('/Blog-rejeter')
+def BlogRejeter():
+    BlogRejeter=db.session.execute(db.select(PostRejeter).order_by(PostRejeter.id)).scalars()
+    return render_template('NiceAdmin/BlogRejeter.html',BlogRejeter=BlogRejeter)
 
 
 
@@ -489,10 +499,17 @@ def BlogrejeterAjoutDef(id):
    
     db.session.commit()
     
-    if BlogSupp:
+    if Blog:
        return redirect(url_for('BlogRejeter'))
    
     return render_template('NiceAdmin/BlogRejeter.html')
+
+
+
+
+@app.route('/Blog-rejeter/<int:id>/deletefef')
+def test1( id):
+    return "salut"
 
 # Invalid URL
 @app.errorhandler(404)
@@ -505,13 +522,11 @@ def page_not_found(e):
 
 
 
-
 if __name__=='__main__':
+    # with app.app_context():
+    #     db.create_all()
     
-    with app.app_context():
-        db.create_all()
-    
-    app.run(debug=True, port=3000)
+    app.run(debug=True, port=3000, host='127.0.0.1', threaded=True)
 
 
 
