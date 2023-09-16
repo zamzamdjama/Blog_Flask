@@ -32,7 +32,7 @@
                       <th scope="col">id</th>
                       <th scope="col">Nom</th>
                       <th scope="col">Email</th>
-                      <th scope="col">Admin</th>
+                      <!-- <th scope="col">Admin</th> -->
                       <th scope="col">Password</th>
                       <th scope="col">Action</th> 
                       
@@ -40,17 +40,23 @@
                     </tr>
                   </thead>
                   <tbody>
-
+                    <form action="">
+                  
+                      
+                 
                     {% for user in users %}
                     <tr>
+                    
                       <th scope="row">{{user.id}}</th>
                       <td>{{user.username}}</td>
                       <td>{{user.email}}</td>
-                      <td>{%if user.admin%} Administrateur  {%else%}  utilisateur {%endif%}</td>
+                      <!-- <td>{%if user.admin%} Administrateur  {%else%}  utilisateur {%endif%}</td> -->
                       <td>{{user.password}}</td>
                       <td><a class="btn btn-danger "href="../user/{{user.id}}/delete">Supprimer</a> <a class="btn btn-success" href="/users-profile/{{user.id}}/update">Modifier</a></td>
+                     
                     </tr>
                     {%endfor%}
+                  </form>
                   </tbody>
                 </table>
                 <!-- End Table with stripped rows -->

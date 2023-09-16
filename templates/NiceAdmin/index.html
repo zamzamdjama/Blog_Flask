@@ -44,7 +44,7 @@
 
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-book"></i>
+                        <a href="/Blog-attent" class="text-muted"><i class="bi bi-book"></i></a>
                       </div>
                       <div class="ps-3">
                         <h6>{{nombreBlogAttent}}</h6>
@@ -80,7 +80,7 @@
 
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-book"></i>
+                      <a href="/Blog-publier">  <i class="bi bi-book"></i></a>
                       </div>
                       <div class="ps-3">
                         <h6>{{nombreBlogPublier}}</h6>
@@ -117,10 +117,10 @@
 
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-book"></i>
+                       <a href="/Blog-rejeter" class="text-danger"> <i class="bi bi-book"></i></a>
                       </div>
                       <div class="ps-3">
-                        <h6>{{nombreBlogPublier}}</h6>
+                        <h6>{{nombreBlogRejeter}}</h6>
                         <!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
 
                       </div>
@@ -132,21 +132,22 @@
               </div>
               <!-- fin Blog rejeté -->
                 <div class="row">
-                  <table class="table">
+                  <table class="table w-100">
                     <tr>
                       <th>Nom</th>
+                      <th>UserName</th>
                       <th>Email</th>
-                      <th>Password</th>
-                      <th>admin</th>
+                      <!-- <th>Password</th> -->
+                      
                     </tr>
                     {% for user in users %}
                     <tr>
                       <th scope="row">{{user.id}}</th>
                       <td>{{user.username}}</td>
                       <td>{{user.email}}</td>
-                      <td>{%if user.admin%} Administrateur  {%else%}  utilisateur {%endif%}</td>
-                      <td>{{user.password}}</td>
-                      <td><a class="btn btn-danger "href="../user/{{user.id}}/delete">Supprimer</a> <a class="btn btn-success" href="../user/{{user.id}}/update">Modifier</a></td>
+                   
+                      <!-- <td>{{user.password}}</td> -->
+                      <!-- <td><a class="btn btn-danger "href="../user/{{user.id}}/delete">Supprimer</a> <a class="btn btn-success" href="../user/{{user.id}}/update">Modifier</a></td> -->
                     </tr>
                     {%endfor%}
                   </table>

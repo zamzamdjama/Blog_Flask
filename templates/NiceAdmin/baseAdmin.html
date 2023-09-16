@@ -8,7 +8,7 @@
   <title>Dashboard - DJIB Blogger</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}" rel="icon">
   <!-- Favicons -->
   <link rel="stylesheet" href="{{ url_for('static', filename='assets/img/favicon.png')}}" rel="icon">
   <!-- <link href="assets/img/favicon.png" rel="icon"> -->
@@ -175,12 +175,13 @@
 
       <li class="nav-heading">Pages</li>
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="/users-profile">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
-      </li><!-- End Profile Page Nav -->
+      </li> -->
+      <!-- End Profile Page Nav -->
 
     
 
@@ -239,6 +240,9 @@
 
   <!-- Template Main JS File -->
   <script src="{{ url_for('static', filename='assets/js/main.js')}} "></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.js')}} "></script>
+
+  <script src="{{ url_for('static', filename='js/script.js')}} "></script>
 
 </body>
 

@@ -11,3 +11,14 @@ hr.line-article{
     margin: 0 30px;
     width: 20%;
 }
+
+
+.input{
+    outline: none;
+    border: none;
+    
+}
+
+.input:disabled{
+    background-color: transparent;
+}

@@ -46,17 +46,18 @@ db.init_app(app)
 app.secret_key='this_is_my_secret_key'
 
 # Create table User
-class User(db.Model, UserMixin):
+class User(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     username=db.Column(db.String(100), nullable=False)
     email=db.Column(db.String(100), unique=True)
-    Admin=db.Column(db.Boolean, nullable=True)
+    
     password= db.Column(db.String(100))
     
 
     def __init__(self, email, password, username):
         self.username=username
         self.email=email
+       
         self.password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         
     def check_password(self, password):
@@ -94,7 +95,6 @@ class Postpublie(db.Model):
     body = db.Column(db.Text, nullable=False)
     #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     Nom = db.Column(db.String(200), unique=True, nullable=False)
-    
     image = db.Column(db.String(150))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
@@ -224,28 +224,24 @@ def user_delete(id):
     userDelete=db.session.delete(user)
     db.session.commit()
     
-    # if request.method == "POST":
-    #     db.session.delete(user)
-    #     db.session.commit()
-    #     flash("Suppression Effectuée","delete")
-    #     return redirect(url_for("GestionUser"))
+
     if   not userDelete:
         return redirect(url_for('GestionUser'))
         
 
     return render_template("NiceAdmin/tables-data.html") 
  
-@app.route("/user/<int:id>/update", methods=["GET", "POST"])
-def user_update(id):
-    user = db.get_or_404(User, id)
+# @app.route("/user/<int:id>/update", methods=["GET", "POST"])
+# def user_update(id):
+#     user = db.get_or_404(User, id)
 
-    if request.method == "POST":
-        user.username=request.form['username']
-        user.email=request.form['email']
-        db.session.commit()
-        flash('Modification Effectuée','update')
-        return redirect(url_for("users"))
-    return render_template("/user/edit.html", user=user)     
+#     if request.method == "POST":
+#         user.username=request.form['username']
+#         user.email=request.form['email']
+#         db.session.commit()
+#         flash('Modification Effectuée','update')
+#         return redirect(url_for("users"))
+#     return render_template("/user/edit.html", user=user)     
 
 # Dashboard admin
 @app.route('/dashboardadmin')
@@ -318,15 +314,89 @@ def NiceAdmin():
     users=db.session.execute(db.select(User).order_by(User.id)).scalars()
     return render_template('NiceAdmin/index.html', nombreBlogAttent=nombreBlogAttent, nombreBlogRejeter=nombreBlogRejeter, nombreBlogPublier=nombreBlogPublier,dernierBlog=dernierBlog,users=users )
 
+
+
+@app.route("/user/<int:id>/update")
+def user_update(id, userName='', Email=''):
+    user = db.get_or_404(User, id)
+
+    
+    user.username=userName
+    user.email=Email
+       
+ 
+       
+    
+    db.session.commit()
+    flash('Modification Effectuée','update')
+        
+        
+    return user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route('/users-profile/<int:id>/update', methods=["GET", "POST"])
 def usersProfileModifier(id):
-    user = db.session.execute(db.select(User).order_by(User.id)).scalars()
+    users=db.session.execute(db.select(User).order_by(User.id)).scalars()
+
+
+    if request.method == "POST" :
+       
+        user=user_update(id,request.form['username'], request.form['email'])
+        return redirect(url_for("GestionUser"))
+   
+    return render_template('NiceAdmin/users-profile.html',users=users, id=id)
+
+
+
+
+
+
+
+
+@app.route("/user/<int:id>/update-pass")
+def user_updatepass(id,  newpass=""):
+    user = db.get_or_404(User, id)
+
+   
+        
+    user.password= newpass
+       
+    
+    db.session.commit()
+    flash('Modification Effectuée','update')
+        
+        
+    return user
+
+
+
+@app.route('/users-profile/<int:id>/update-password', methods=["GET", "POST"])
+def passwordProfileModifier(id):
+    users=db.session.execute(db.select(User).order_by(User.id)).scalars()
+
+
     if request.method == "POST":
-        user.username=request.form['username']
-        user.email=request.form['email']
-        db.session.commit()
-        flash('Modification Effectuée','update')
-    return render_template('NiceAdmin/users-profile.html', users=user)
+       
+        user=user_updatepass(id,request.form['newpassword'])
+        return redirect(url_for("GestionUser"))
+   
+    return render_template('NiceAdmin/users-profile.html',users=users, id=id)
+
+
 
 
 
@@ -350,6 +420,10 @@ def GestionUser():
 
 
 # blog
+
+
+
+
 @app.route('/Blog-attent')
 def BlogAttent():
     BlogAttent= PostAttent.query.order_by(PostAttent.date_pub)
@@ -370,6 +444,8 @@ def BlogPublierAjout(id):
     db.session.delete(blogdelete)
     db.session.add(newBlog)
     db.session.commit()
+    if newBlog:
+       return redirect(url_for('BlogPublier'))
   
     return render_template('NiceAdmin/BlogPublier.html')
 
@@ -398,9 +474,26 @@ def BlogrejeterAjout(id):
     db.session.add(newBlog)
     db.session.commit()
     if newBlog:
-        redirect(url_for('BlogRejeter'))
+       return redirect(url_for('BlogRejeter'))
    
     return render_template('NiceAdmin/BlogRejeter.html')
+
+
+
+
+@app.route('/Blog-rejeter/<int:id>/deleteDef')
+def BlogrejeterAjoutDef(id):
+    Blog = db.get_or_404(PostRejeter, id)
+   
+    BlogSupp=db.session.delete(Blog)
+   
+    db.session.commit()
+    
+    if BlogSupp:
+       return redirect(url_for('BlogRejeter'))
+   
+    return render_template('NiceAdmin/BlogRejeter.html')
+
 # Invalid URL
 @app.errorhandler(404)
 def page_not_found(e):
