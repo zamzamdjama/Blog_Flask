@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+<h1>{% block title %} Welcome to Djib-blogger {% endblock %}</h1>
+
+{% block content %}
+<div
+class="p-5 mt-3 text-center bg-image"
+style="
+  background-image: url('../static/images/img8.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 400px;
+"
+>
+  <div class="mask mt-3" style="background-color: rgba(0, 0, 0, 0.7); height: 50vh;">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <div class="text-white">
+        <h2 class="mb-3">Créer vos propres articles</h2>
+        <h4 class="mb-3">Plongez dans notre univers</h4>
+        {% if session['username']%}
+          <a class="btn btn-success text-white btn-lg " href="/addpost" role="button">Créer un article</a>
+        {%else%}
+        <a class="btn btn-success text-white btn-lg " href="/login" role="button">Créer un article</a>
+        {%endif%}
+    
+      </div>
+    </div>
+  </div>
+</div>
+<h3 class="fw-bold my-5 mx-3 text-uppercase"> Top Articles Recents</h3>
+
+{% for post in posts %}
+<div class="card my-3">
+  <img src="{{url_for('static', filename='images/' +post.image)}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h1 class="card-title text-capitalize text-success">{{post.title}}</h1>
+    <p class="card-text"> {{post.body}} </p>
+    <p class="card-text"><small class="text-body-secondary">created in  {{post.date_pub}} by <b> {{post.Nom}} </b> </small></p>
+  </div>
+  
+</div>
+{% endfor %}
+
+{% endblock %}  
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,64 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<div class="card container my-5" style="width: 1800px;">
+  {% for post in posts %}
+  <img src="{{url_for('static', filename='images/' +post.image)}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    
+    <h1 class="card-title text-capitalize text-success">{{post.title}}</h1>
+    <p class="card-text"> {{post.body}} </p>
+    <p class="card-text"><small class="text-body-secondary">created in {{post.date_pub}} by <b>{{post.Nom}}</b> </small></p>
+  </div>
+  
+  <div>
+    <span class="text-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <i class="fas fa-comments mx-2"></i> Commenter </span>
+      <button type="button" class="btn btn-primary position-relative mx-5">
+        Commentaires
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+          nbr
+       
+        </span>
+      </button>
+  </div>
+  
+  <div class="collapse" id="collapseExample">
+    <form class=" container my-4" action="" method="POST">
+      <h3>Laisser un commentaire pour ce poste</h3>
+      <!-- Name input -->
+      <div class="form-outline mb-4">
+        <input type="text" id="form4Example1" class="form-control" />
+        <label class="form-label" for="form4Example1">Nom</label>
+      </div>
+    
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <input type="email" id="form4Example2" class="form-control" />
+        <label class="form-label" for="form4Example2">Email </label>
+      </div>
+    
+      <!-- Message input -->
+      <div class="form-outline mb-4">
+        <textarea class="form-control" id="form4Example3" rows="4"></textarea>
+        <label class="form-label" for="form4Example3">Message</label>
+      </div>
+  
+    
+      <!-- Submit button -->
+      <input type="submit" class="btn btn-primary btn-block mb-4 px-5 " value=" Envoyer"/>
+       
+      
+    </form>
+   
+  </div>
+  {% endfor %}
+</div>
+
+
+{% endblock %}
+
+
+
+     
