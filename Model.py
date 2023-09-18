@@ -1,137 +1,4 @@
-from flask import *
-from datetime import datetime  
-from flask_sqlalchemy import SQLAlchemy
-from flask_mysqldb import MySQL,MySQLdb
-import bcrypt
-from flask_login import *
-from flask_migrate import Migrate
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost/blog'
-
-db = SQLAlchemy()
-migrate=Migrate(app, db)
-db.init_app(app)
-app.secret_key='this_is_my_secret_key'
-
-# Create table User
-class User(db.Model):
-    id=db.Column(db.Integer, primary_key=True)
-    username=db.Column(db.String(100), nullable=False)
-    email=db.Column(db.String(100), unique=True)
-    
-    password= db.Column(db.String(100))
-    
-
-    def __init__(self, email, password, username):
-        self.username=username
-        self.email=email
-       
-        self.password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        
-    def check_password(self, password):
-        return bcrypt.checkpw(password.encode('utf-8'),self.password.encode('utf-8'))
-with app.app_context():
-    db.create_all()   
-
-# Create table Post
-
-class Post(db.Model):
-    __searchable__ = ['title', 'body']
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), nullable=False)
-    body = db.Column(db.Text, nullable=False)
-    Nom = db.Column(db.String(200), unique=True, nullable=False)
-    image = db.Column(db.String(150))
-    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    comments = db.Column(db.Integer,default=0)
-
-def __init__(self, title, body, Nom, image, date_pub):
-    self.title=title
-    self.body=body
-    self.Nom=Nom
-    self.date_pub=date_pub
-    self.image=image
-
-with app.app_context():
-    db.create_all()    
-    
-    
-class Postpublie(db.Model):
-    __searchable__ = ['title', 'body']
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), unique=True, nullable=False)
-    body = db.Column(db.Text, nullable=False)
-    #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    Nom = db.Column(db.String(200), unique=True, nullable=False)
-    image = db.Column(db.String(150))
-    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-def __init__(self, title, body, Nom,image ,date_pub):
-    self.title=title
-    self.body=body
-    self.Nom=Nom
-    self.image=image
-    self.date_pub=date_pub
-
-with app.app_context():
-    db.create_all()   
-    
-class PostAttent(db.Model):
-    __searchable__ = ['title', 'body']
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), unique=True, nullable=False)
-    body = db.Column(db.Text, nullable=False)
-    #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    Nom = db.Column(db.String(200), unique=True, nullable=False)
-    
-    image = db.Column(db.String(150))
-    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-def __init__(self, title, body, Nom,image, date_pub):
-    self.title=title
-    self.body=body
-    self.Nom=Nom
-    self.image=image
-    self.date_pub=date_pub
-
-with app.app_context():
-    db.create_all() 
-    
-class PostRejeter(db.Model):
-    __searchable__ = ['title', 'body']
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), unique=True, nullable=False)
-    body = db.Column(db.Text, nullable=False)
-    #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    Nom = db.Column(db.String(200), unique=True, nullable=False)
-    
-    image = db.Column(db.String(150))
-    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-def __init__(self, title, body, Nom,image, date_pub):
-    self.title=title
-    self.body=body
-    self.Nom=Nom
-    self.image=image
-    self.date_pub=date_pub
-
-with app.app_context():
-    db.create_all()   
-
-# table comments
-
-class Comments(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), unique=False, nullable=False)
-    email = db.Column(db.String(200), unique=False, nullable=False)
-    message = db.Column(db.Text, nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete='CASCADE'), nullable=False)
-    post = db.relationship('Post', backref=db.backref('posts',lazy=True,
-    passive_deletes=True))
-    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-
+from base import *
 
 
 
@@ -192,17 +59,7 @@ def user_delete(id):
 
     return render_template("NiceAdmin/tables-data.html") 
  
-# @app.route("/user/<int:id>/update", methods=["GET", "POST"])
-# def user_update(id):
-#     user = db.get_or_404(User, id)
-
-#     if request.method == "POST":
-#         user.username=request.form['username']
-#         user.email=request.form['email']
-#         db.session.commit()
-#         flash('Modification Effectuée','update')
-#         return redirect(url_for("users"))
-#     return render_template("/user/edit.html", user=user)     
+  
 
 # Dashboard admin
 @app.route('/dashboardadmin')
@@ -211,11 +68,7 @@ def AdminDashboard():
 
 
 
-# @app.route('/navpost')
-# def navpost():
-#        if session['username']:
-#         user = User.query.filter_by(email=session['email']).first()
-#         return render_template('navpost.html',user=user)
+
 
 
 # Logout
@@ -257,13 +110,45 @@ def posts():
      
     return render_template('posts.html',posts=posts)    
 
-# Latest_articles
-# @app.route('/Latest_articles')
-# def Latest_articles():
-    
-#     posts= Post.query.order_by(Post.id.desc()).limit(2) 
 
-#     return render_template('Latest_articles.html',posts=posts)
+@app.route('/comments/<int:id>',methods=["GET","POST"])
+def addcomments(id):
+    try:
+        
+        if request.method== "POST":
+            name = request.form['nom']
+            email=request.form['email']
+            message = request.form['message']
+            id=id
+        
+            comment=Comments(name=name,email=email,message=message, id=id)
+            db.session.add(comment)
+            db.session.commit()
+            return url_for('posts')
+    except:
+        pass   
+      
+    
+    
+    return render_template('comments.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @app.route('/NiceAdmin')
@@ -390,10 +275,6 @@ def BlogAttent():
 
 
 
-# @app.route("/user/<int:id>")
-# def user_detail(id):
-#     user = db.get_or_404(User, id)
-#     return render_template("user/detail.html", user=user)
 @app.route('/Blog-publier/<int:id>/Ajout')
 def BlogPublierAjout(id):
     Blog = db.get_or_404(PostAttent, id)
@@ -448,21 +329,6 @@ def BlogrejeterAjout(id):
 
 
 
-@app.route('/comments',methods=["GET","POST"])
-def addcomments():
-    # if request.method== "POST":
-    #     name = request.form['nom']
-    #     email=request.form['email']
-    #     message = request.form['message']
-        
-    #     # image = request.form['image']
-    #     comment=Comments(name=name,email=email,message=message)
-    #     db.session.add(comment)
-    #     db.session.commit()
-      
-    # comments=Comments.query.all()
-    pass
-    return render_template('comments.html')
 
 @app.route('/Blog-rejeter/<int:id>/deleteDef')
 def BlogrejeterAjoutDef(id):
@@ -480,9 +346,6 @@ def BlogrejeterAjoutDef(id):
 
 
 
-@app.route('/Blog-rejeter/<int:id>/deletefef')
-def test1( id):
-    return "salut"
 @app.route('/')
 def index():
     posts= Postpublie.query.order_by(Postpublie.id.desc()).limit(10) 
