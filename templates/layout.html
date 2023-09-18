@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title> {% block title %} {% endblock %} </title>
+  <title>Djib Blogger - Index</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -23,12 +23,11 @@
   <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="/static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="/static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <!-- <link href="/static/assets/vendor/aos/aos.css" rel="stylesheet"> -->
+  <link href="/static/assets/vendor/aos/aos.css" rel="stylesheet">
 
   <!-- Template Main CSS Files -->
   <link href="/static/assets/css/variables.css" rel="stylesheet">
   <link href="/static/assets/css/main.css" rel="stylesheet">
-  <link rel="stylesheet" href="/static/Font-Awesome/css/all.css">
 
   <!-- =======================================================
   * Template Name: ZenBlog
@@ -41,14 +40,14 @@
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header d-flex align-items-center fixed-top">
+   <!-- ======= Header ======= -->
+   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <span  class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h3 class="" style="font-family:Arial, Helvetica, sans-serif"> <span class="text-success text-uppercase">Djib</span> Blogger</h3>
+        <h1 class="" style="font-family:Arial, Helvetica, sans-serif"> <span class="text-success text-uppercase">Djib</span> Blogger</h1>
       </span>
 
       <nav id="navbar" class="navbar">
@@ -74,25 +73,43 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li> -->
-          <li><a href="/addpost">creer un article</a></li>
+          <!-- <li><a href="/addpost">creer un article</a></li> -->
           <li><a href="/about">A propos de nous</a></li>
           <li><a href="/contact">Nous contacter</a></li>
-          {% if session['username']=='Ali' and session['email']=='Ali@gmail.com'%}
-          <li class="nav-item">
-            <a class="nav-link mx-3" href="/NiceAdmin">Table de bord</a>
-          </li>
-          <li><a class="btn btn-outline-danger px-3 mx-3 fs-5" href="/logout" >Se déconnecter</a>
-            {%elif  session['username']%}</li>
+          
 
           <li class="nav-item">
-            <a class="nav-link mx-3" href="">{{session['username']}}</a>
+            <!-- <i class="fas fa-user"></i>
+            <a class="nav-link mx-3" href="">{{session['username']}}</a> -->
+            <ul class="navbar-nav">
+              <!-- Avatar -->
+              <li class="nav-item dropdown mx-5">
+                <button
+                  class="nav-link dropdown-toggle d-flex align-items-center"
+                  
+                  id="navbarDropdownMenuLink"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                
+                  <i class="fas fa-user text-muted mx-2" ></i> <span class="text-muted mx-2">{{user.username}}</span>
+                </button>
+                <ul class="dropdown-menu mt-3 border" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 50px;">
+                  <li>
+                    <a class="dropdown-item" href="#">My profile</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Settings</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item " href="/logout">Logout</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </li>  
-          <a class="btn btn-outline-danger px-3 mx-3 fs-5" href="/logout" >Se déconnecter</a>
-    
-          {%else%}
-          <li><a href="/login" class="btn btn-success justify-content-center px-5 mx-3 fs-5 text-white">Se connecter</a></li>
-          <!-- <a class="btn btn-success px-3 mx-3 fs-5" href="/login" >Login</a> -->
-          {%endif%}
+          <!-- <a class="btn btn-outline-danger px-3 mx-3 fs-5" href="/logout" >Se déconnecter</a> -->
         </ul>
       </nav><!-- .navbar -->
 
@@ -132,22 +149,21 @@
     <div class="footer-content">
       <div class="container">
 
-        <div class="row g-2 d-flex justify-content-between">
+        <div class="row g-5">
           <div class="col-lg-4">
-            <h3 class="footer-heading  "><span class="text-capitalize">à propos </span> de Djib Blogger</h3>
+            <h3 class="footer-heading">About DjibBlogger</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam ab, perspiciatis beatae autem deleniti voluptate nulla a dolores, exercitationem eveniet libero laudantium recusandae officiis qui aliquid blanditiis omnis quae. Explicabo?</p>
             <p><a href="/about" class="footer-link-more">Learn More</a></p>
           </div>
-          <div class="col-6 col-lg-4">
-            <h3 class="footer-heading">Liens</h3>
+          <div class="col-6 col-lg-2">
+            <h3 class="footer-heading">Navigation</h3>
             <ul class="footer-links list-unstyled">
-              <li><a href="/"><i class="bi bi-chevron-right"></i> Accueil </a></li>
-              <li><a href="/posts"><i class="bi bi-chevron-right"></i> Articles </a></li>
-              <li><a href="/addpost"><i class="bi bi-chevron-right"></i> Créer un article </a></li>
+              <li><a href="/"><i class="bi bi-chevron-right"></i> Accueil</a></li>
+              <li><a href="/posts"><i class="bi bi-chevron-right"></i> Articles</a></li>
               <!-- <li><a href="category.html"><i class="bi bi-chevron-right"></i> Categories</a></li> -->
               <!-- <li><a href="single-post.html"><i class="bi bi-chevron-right"></i> Single Post</a></li> -->
-              <li><a href="about.html"><i class="bi bi-chevron-right"></i> A propos de Nous</a></li>
-              <li><a href="contact.html"><i class="bi bi-chevron-right"></i> Nous Contacter </a></li>
+              <li><a href="/about"><i class="bi bi-chevron-right"></i> About us</a></li>
+              <li><a href="/contact"><i class="bi bi-chevron-right"></i> Contact</a></li>
             </ul>
           </div>
           <!-- <div class="col-6 col-lg-2">
@@ -165,7 +181,7 @@
             </ul>
           </div> -->
 
-          <!-- <div class="col-lg-4">
+          <div class="col-lg-4">
             <h3 class="footer-heading">Recent Posts</h3>
 
             <ul class="footer-links footer-blog-entry list-unstyled">
@@ -211,7 +227,7 @@
 
             </ul>
 
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -230,20 +246,19 @@
               <!-- You can delete the links only if you purchased the pro version. -->
               <!-- Licensing information: https://bootstrapmade.com/license/ -->
               <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/herobiz-bootstrap-business-template/ -->
-              Designed by <span class="" style="font-size: 15px;"> ZamZam Djama Dirieh </span>
+              Designed by <a href="https://bootstrapmade.com/">Arrey Technology</a>
             </div>
 
           </div>
 
           <div class="col-md-6">
-            <section class="">
-              <p class="d-flex justify-content-center align-items-center">
-                <span class="me-3">Inscrivez-vous dés maitenant</span>
-                <a type="button" href="/register" class="btn btn-outline-light btn-rounded p-2">
-                 Nous réjoindre
-                </a>
-              </p>
-            </section>
+            <div class="social-links mb-3 mb-lg-0 text-center text-md-end">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="bi bi-skype"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
 
           </div>
 
@@ -264,7 +279,7 @@
   <script src="/static/assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="/static/assets/js/main1.js"></script>
+  <script src="/static/assets/js/main.js"></script>
 
 </body>
 

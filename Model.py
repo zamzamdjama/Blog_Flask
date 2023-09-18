@@ -1,18 +1,3 @@
-# from flask import *
-# from flask_sqlalchemy import SQLAlchemy
-# db=SQLAlchemy()
-# app = Flask(__name__)
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
-# db.init_app(app)
-# class User(db.Model):
-#     id=db.Column(db.Integer, primary_key=True)
-#     username=db.Column(db.String)
-#     email=db.Column(db.String)
-#     password=db.Column(db.String, unique=False, nullable=False)
-# with app.app_context():
-#     db.create_all()
-
-
 from flask import *
 from datetime import datetime  
 from flask_sqlalchemy import SQLAlchemy
@@ -21,25 +6,9 @@ import bcrypt
 from flask_login import *
 from flask_migrate import Migrate
 
-
-# app= Flask(__name__) 
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost/blog'
 
-
-# app.config["SESSION_PERMANENT"] = False
-# app.config["SESSION_TYPE"] = "filesystem"
-# session(app)
-# app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///blog.db'
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = ''
-# app.config['MYSQL_DB'] = 'users'
-# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-# mysql=MySQL(app)
-
-# db=SQLAlchemy(app)
 db = SQLAlchemy()
 migrate=Migrate(app, db)
 db.init_app(app)
@@ -165,12 +134,6 @@ class Comments(db.Model):
 
 
 
-# Index
-@app.route('/')
-def index():
-    posts= Post.query.order_by(Post.id.desc()).limit(2) 
-    return render_template('index.html',posts=posts)
-
 
 # Register
 @app.route('/register',methods=["GET","POST"])
@@ -213,15 +176,6 @@ def login():
         
     return render_template('login.html')
 
-# @app.route("/users")
-# def user_list():
-#     users = db.session.execute(db.select(User).order_by(User.id)).scalars()
-#     return render_template("user/list.html", users=users)
-
-# @app.route("/user/<int:id>")
-# def user_detail(id):
-#     user = db.get_or_404(User, id)
-#     return render_template("user/detail.html", user=user)
 
 @app.route("/user/<int:id>/delete", methods=["GET", "POST"])
 def user_delete(id):
@@ -257,11 +211,11 @@ def AdminDashboard():
 
 
 
-@app.route('/navpost')
-def navpost():
-       if session['username']:
-        user = User.query.filter_by(email=session['email']).first()
-        return render_template('navpost.html',user=user)
+# @app.route('/navpost')
+# def navpost():
+#        if session['username']:
+#         user = User.query.filter_by(email=session['email']).first()
+#         return render_template('navpost.html',user=user)
 
 
 # Logout
@@ -304,12 +258,12 @@ def posts():
     return render_template('posts.html',posts=posts)    
 
 # Latest_articles
-@app.route('/Latest_articles')
-def Latest_articles():
+# @app.route('/Latest_articles')
+# def Latest_articles():
     
-    posts= Post.query.order_by(Post.id.desc()).limit(2) 
+#     posts= Post.query.order_by(Post.id.desc()).limit(2) 
 
-    return render_template('Latest_articles.html',posts=posts)
+#     return render_template('Latest_articles.html',posts=posts)
 
 
 @app.route('/NiceAdmin')
@@ -436,7 +390,10 @@ def BlogAttent():
 
 
 
-
+# @app.route("/user/<int:id>")
+# def user_detail(id):
+#     user = db.get_or_404(User, id)
+#     return render_template("user/detail.html", user=user)
 @app.route('/Blog-publier/<int:id>/Ajout')
 def BlogPublierAjout(id):
     Blog = db.get_or_404(PostAttent, id)
@@ -470,6 +427,11 @@ def BlogrejeterAjoutP(id):
    
     return render_template('NiceAdmin/BlogRejeter.html')
 
+@app.route('/Blog-rejeter')
+def BlogRejeter():
+    BlogRejeter=db.session.execute(db.select(PostRejeter).order_by(PostRejeter.id)).scalars()
+    return render_template('NiceAdmin/BlogRejeter.html',BlogRejeter=BlogRejeter)
+
 
 @app.route('/Blog-rejeter/<int:id>/delete')
 def BlogrejeterAjout(id):
@@ -484,12 +446,23 @@ def BlogrejeterAjout(id):
    
     return render_template('NiceAdmin/BlogRejeter.html')
 
-@app.route('/Blog-rejeter')
-def BlogRejeter():
-    BlogRejeter=db.session.execute(db.select(PostRejeter).order_by(PostRejeter.id)).scalars()
-    return render_template('NiceAdmin/BlogRejeter.html',BlogRejeter=BlogRejeter)
 
 
+@app.route('/comments',methods=["GET","POST"])
+def addcomments():
+    # if request.method== "POST":
+    #     name = request.form['nom']
+    #     email=request.form['email']
+    #     message = request.form['message']
+        
+    #     # image = request.form['image']
+    #     comment=Comments(name=name,email=email,message=message)
+    #     db.session.add(comment)
+    #     db.session.commit()
+      
+    # comments=Comments.query.all()
+    pass
+    return render_template('comments.html')
 
 @app.route('/Blog-rejeter/<int:id>/deleteDef')
 def BlogrejeterAjoutDef(id):
@@ -499,7 +472,7 @@ def BlogrejeterAjoutDef(id):
    
     db.session.commit()
     
-    if Blog:
+    if BlogSupp:
        return redirect(url_for('BlogRejeter'))
    
     return render_template('NiceAdmin/BlogRejeter.html')
@@ -510,6 +483,18 @@ def BlogrejeterAjoutDef(id):
 @app.route('/Blog-rejeter/<int:id>/deletefef')
 def test1( id):
     return "salut"
+@app.route('/')
+def index():
+    posts= Postpublie.query.order_by(Postpublie.id.desc()).limit(10) 
+    return render_template('home.html',titre='Djib Blogger - Home', posts=posts)
+
+@app.route('/about')
+def about():
+   return render_template('about.html',titre='Djib Blogger - About')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html',titre='Djib Blogger - Contact')
 
 # Invalid URL
 @app.errorhandler(404)
@@ -517,16 +502,12 @@ def page_not_found(e):
     return render_template('404.html'),404
 
 
-
-
-
-
-
 if __name__=='__main__':
-    # with app.app_context():
-    #     db.create_all()
     
-    app.run(debug=True, port=3000, host='127.0.0.1', threaded=True)
+    with app.app_context():
+        db.create_all()
+    
+    app.run(debug=True, port=3000)
 
 
 
