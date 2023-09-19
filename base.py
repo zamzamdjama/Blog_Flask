@@ -59,7 +59,29 @@ def __init__(self, title, body, Nom, image, date_pub):
 with app.app_context():
     db.create_all()    
     
-    
+
+# table comments
+
+class Comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=False, nullable=False)
+    email = db.Column(db.String(200), unique=False, nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete='CASCADE'), nullable=False)
+    post = db.relationship('Post', backref=db.backref('posts',lazy=True))
+    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+def __init__(self, name, email, message,post_id, date_pub):
+    self.name=name
+    self.email=email
+    self.message=message
+    self.post_id=post_id
+    self.date_pub=date_pub
+
+with app.app_context():
+    db.create_all()   
+
+
+
 class Postpublie(db.Model):
     __searchable__ = ['title', 'body']
     id = db.Column(db.Integer, primary_key=True)
@@ -85,7 +107,7 @@ class PostAttent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), unique=True, nullable=False)
     body = db.Column(db.Text, nullable=False)
-    #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+   
     Nom = db.Column(db.String(200), unique=True, nullable=False)
     
     image = db.Column(db.String(150))
@@ -122,23 +144,4 @@ def __init__(self, title, body, Nom,image, date_pub):
 with app.app_context():
     db.create_all()   
 
-# table comments
-
-class Comments(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), unique=False, nullable=False)
-    email = db.Column(db.String(200), unique=False, nullable=False)
-    message = db.Column(db.Text, nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete='CASCADE'), nullable=False)
-    # post = db.relationship('Post', backref=db.backref('posts',lazy=True,passive_deletes=True))
-    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-def __init__(self, name, email, message,post_id, date_pub):
-    self.name=name
-    self.email=email
-    self.message=message
-    self.post_id=post_id
-    self.date_pub=date_pub
-
-with app.app_context():
-    db.create_all()   
 

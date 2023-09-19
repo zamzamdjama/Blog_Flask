@@ -61,16 +61,6 @@ def user_delete(id):
  
   
 
-# Dashboard admin
-@app.route('/dashboardadmin')
-def AdminDashboard():
-    return render_template('DashboardAdmin.html')
-
-
-
-
-
-
 # Logout
 @app.route('/logout')
 def logout():
@@ -80,9 +70,33 @@ def logout():
 
 
 
-@app.route('/base')
-def base():
-    return render_template('base.html')    
+
+# ---------------  Routes  ----------------------------
+
+
+# index
+@app.route('/')
+def index():
+    posts= Postpublie.query.order_by(Postpublie.id.desc()).limit(10) 
+    return render_template('home.html',titre='Djib Blogger - Home', posts=posts)
+
+
+# about
+@app.route('/about')
+def about():
+   return render_template('about.html',titre='Djib Blogger - About')
+
+
+
+
+# contact
+@app.route('/contact')
+def contact():
+    return render_template('contact.html',titre='Djib Blogger - Contact')
+
+
+
+
 
 
 # Add post
@@ -101,39 +115,61 @@ def addpost():
         return redirect('/posts')
     
     user = User.query.filter_by(email=session['email']).first()
-    return render_template('createpost.html', titre='création des articles',user=user)
+    return render_template('createpost.html', titre='Djib Blogger -  création des articles',user=user)
+
 
 # posts
 @app.route('/posts')
 def posts():
+    # post=Postpublie.query.get_or_404(id)
     posts= Postpublie.query.all()
-     
-    return render_template('posts.html',posts=posts)    
+    
+
+    return render_template('posts.html',title='Djib Blogger - Articles', posts=posts)    
 
 
-@app.route('/comments/<int:id>',methods=["GET","POST"])
-def addcomments(id):
+@app.route('/comments/<int:post_id>',methods=["GET","POST"])
+def comments(post_id):
+    
+    # post=Postpublie.query.get_or_404(id)
+    posts= Postpublie.query.all()
     try:
-        
-        if request.method== "POST":
-            name = request.form['nom']
-            email=request.form['email']
-            message = request.form['message']
-            id=id
-        
-            comment=Comments(name=name,email=email,message=message, id=id)
+
+        if request.method == "POST":
+            name = request.form.get('nom')
+            email=request.form.get('email')
+            message = request.form.get('message')
+            comment=Comments(name=name,email=email,message=message, post_id=posts.id)
             db.session.add(comment)
+            
+            flash('Your comment has submitted','success')
             db.session.commit()
-            return url_for('posts')
+            return redirect('posts')
     except:
-        pass   
+        pass
+    return render_template('comments.html')  
+
+# Comments
+# @app.route('/comments/<int:id>',methods=["GET","POST"])
+# def addcomments(id):
+#     try:
+        
+#         if request.method== "POST":
+#             name = request.form['nom']
+#             email=request.form['email']
+#             message = request.form['message']
+#             id=id
+        
+#             comment=Comments(name=name,email=email,message=message, id=id)
+#             db.session.add(comment)
+#             db.session.commit()
+#             return url_for('posts')
+#     except:
+#         pass   
       
     
     
-    return render_template('comments.html')
-
-
-
+#     return render_template('comments.html')
 
 
 
@@ -346,18 +382,8 @@ def BlogrejeterAjoutDef(id):
 
 
 
-@app.route('/')
-def index():
-    posts= Postpublie.query.order_by(Postpublie.id.desc()).limit(10) 
-    return render_template('home.html',titre='Djib Blogger - Home', posts=posts)
 
-@app.route('/about')
-def about():
-   return render_template('about.html',titre='Djib Blogger - About')
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html',titre='Djib Blogger - Contact')
 
 # Invalid URL
 @app.errorhandler(404)

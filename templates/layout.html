@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Djib Blogger - Index</title>
+  <title> {% block title %} {% endblock %} </title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -28,6 +28,7 @@
   <!-- Template Main CSS Files -->
   <link href="/static/assets/css/variables.css" rel="stylesheet">
   <link href="/static/assets/css/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="../static/Font-Awesome/css/all.css">
 
   <!-- =======================================================
   * Template Name: ZenBlog
@@ -93,7 +94,7 @@
                   aria-expanded="false"
                 >
                 
-                  <i class="fas fa-user text-muted mx-2" ></i> <span class="text-muted mx-2">{{user.username}}</span>
+                  <i class="fas fa-user  mx-2" ></i> <span class=" mx-2">{{user.username}}</span>
                 </button>
                 <ul class="dropdown-menu mt-3 border" aria-labelledby="navbarDropdownMenuLink" style="margin-right: 50px;">
                   <li>

@@ -1,153 +1,64 @@
+{% extends 'base.html'%}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-    <title>Document</title>
-</head>
-<body>
-   <!-- carousel -->
-   <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <!-- card -->
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-              <div class="card h-100">
-                <img src="{{url_for('static',filename='images/img1.jpg')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card h-100">
-                <img src="{{url_for('static',filename='images/img2.jpg')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card h-100">
-                <img src="{{url_for('static',filename='images/img3.jpg')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-      <div class="carousel-item">
-        <!-- card -->
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-              <div class="card h-100">
-                <img src="{{url_for('static',filename='images/img4.jpg')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card h-100">
-                <img src="{{url_for('static',filename='images/img5.jpg')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card h-100">
-                <img src="{{url_for('static',filename='images/img6.jpg')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-      <div class="carousel-item">
-        <!-- card -->
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-              <div class="card h-100">
-                <img src="{{url_for('static',filename='images/img7.jpg')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card h-100">
-                <img src="{{url_for('static',filename='images/img8.jpg')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card h-100">
-                <img src="{{url_for('static',filename='images/img9.jpg')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
+{% block content %}
 
+<div class="card container-fluid p-5" >
+  {% for article in articles %}
+  <img src="{{url_for('static', filename='images/' +post.image)}}" class="card-img-top" alt="...">
+  <div class="card-body">
     
+    <h1 class="card-title text-capitalize text-success">{{article.title}}</h1>
+    <p class="card-text text-secondary" style="font-family: Arial, Helvetica, sans-serif; font-size: 18px" > {{article.body}} </p>
+    <p class="card-text"style="font-family: Arial, Helvetica, sans-serif; font-size: 18px"  ><small class="text-body-secondary">created in {{article.date_pub}} <h4>{{article.Nom}}</b> </small></h4>
+  </div>
+  
+  <div>
+    <span class="text-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <i class="fas fa-comments mx-2"></i> Commenter </span>
+      <button type="button" class="btn btn-primary position-relative mx-5">
+        Commentaires
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+          nbr
+       
+        </span>
+      </button>
+  </div>
+  
+  <div class="collapse" id="collapseExample">
+    <form class=" container my-4" action="/comments/{{post.id}}" method="POST">
+      <h3>Laisser un commentaire pour ce poste</h3>
+      <!-- Name input -->
+      <div class="form-outline mb-4">
+        <input type="text" id="form4Example1" class="form-control" name="nom"/>
+        <label class="form-label" for="form4Example1">Nom</label>
+      </div>
+    
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <input type="email" id="form4Example2" class="form-control"  name="email"/>
+        <label class="form-label" for="form4Example2">Email </label>
+      </div>
+    
+      <!-- Message input -->
+      <div class="form-outline mb-4">
+        <textarea class="form-control" id="form4Example3" rows="4" name="message"></textarea>
+        <label class="form-label" for="form4Example3">Message</label>
+      </div>
+  
+    
+      <!-- Submit button -->
+      <input type="submit" class="btn btn-primary btn-block mb-4 px-5 " value=" Envoyer"/>
+       
+      
+    </form>
+   
+  </div>
+  {% endfor %}
+</div>
+
+
+{% endblock %}
+
+
+
      
-  <script src="{{ url_for('static', filename='js/bootstrap.bundle.js')}}"></script>
-</body>
-</html>
