@@ -15,13 +15,27 @@
   <div>
     <span class="text-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
       <i class="fas fa-comments mx-2"></i> Commenter </span>
-      <button type="button" class="btn btn-primary position-relative mx-5">
+      <button type="button" class="btn btn-primary position-relative mx-5" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
         Commentaires
         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-          nbr
+          {{ nombrecomment }}
        
         </span>
       </button>
+  </div>
+
+  <div class="collapse" id="collapseExample2">
+    {% for comment in comments %}
+    <p>
+      {{ comment.name }}
+    </p>
+    <p>
+      {{ comment.email }}
+    </p>
+    <p>
+      {{ comment.message }}
+    </p>
+    {% endfor %}
   </div>
   
   <div class="collapse" id="collapseExample">

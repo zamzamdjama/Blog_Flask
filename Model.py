@@ -115,7 +115,7 @@ def addpost():
         return redirect('/posts')
     
     user = User.query.filter_by(email=session['email']).first()
-    return render_template('createpost.html', titre='Djib Blogger -  création des articles',user=user)
+    return render_template('createpost.html', titre='Djib Blogger -  création des articles', user=user)
 
 
 # posts
@@ -123,31 +123,33 @@ def addpost():
 def posts():
     # post=Postpublie.query.get_or_404(id)
     posts= Postpublie.query.all()
-    
+    comments=Comments.query.all()
+    nombrecomment=Comments.query.count()
 
-    return render_template('posts.html',title='Djib Blogger - Articles', posts=posts)    
+    return render_template('posts.html',title='Djib Blogger - Articles', posts=posts, comments=comments, nombrecomment=nombrecomment)    
 
 
-@app.route('/comments/<int:post_id>',methods=["GET","POST"])
+@app.route('/posts/<int:post_id>',methods=["GET","POST"])
 def comments(post_id):
     
     # post=Postpublie.query.get_or_404(id)
-    posts= Postpublie.query.all()
+    # posts= Postpublie.query.all()
     try:
 
         if request.method == "POST":
             name = request.form.get('nom')
             email=request.form.get('email')
             message = request.form.get('message')
-            comment=Comments(name=name,email=email,message=message, post_id=posts.id)
-            db.session.add(comment)
-            
-            flash('Your comment has submitted','success')
+            post_id=post_id
+            comments=Comments(name=name,email=email,message=message, post_id=post_id)
+            db.session.add(comments)
             db.session.commit()
-            return redirect('posts')
+            flash('Your comment has submitted','success')
+            
+            # return redirect('posts')
     except:
         pass
-    return render_template('comments.html')  
+    return render_template('posts.html')  
 
 # Comments
 # @app.route('/comments/<int:id>',methods=["GET","POST"])
