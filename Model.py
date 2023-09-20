@@ -129,11 +129,9 @@ def posts():
     return render_template('posts.html',title='Djib Blogger - Articles', posts=posts, comments=comments, nombrecomment=nombrecomment)    
 
 
-@app.route('/comments/<int:post_id>',methods=["GET","POST"])
+@app.route('/posts/<int:post_id>',methods=["GET","POST"])
 def comments(post_id):
     
-    # post=Postpublie.query.get_or_404(id)
-    # posts= Postpublie.query.all()
     try:
 
         if request.method == "POST":
@@ -144,12 +142,12 @@ def comments(post_id):
             comments=Comments(name=name,email=email,message=message, post_id=post_id)
             db.session.add(comments)
             db.session.commit()
-            flash('Your comment has submitted','success')
+            # flash('Your comment has submitted','success')
             
-            # return redirect('posts')
+            return redirect('/posts')
     except:
         pass
-    return render_template('posts.html')  
+    return render_template('comments.html')  
 
 # Comments
 # @app.route('/comments/<int:id>',methods=["GET","POST"])
@@ -316,6 +314,8 @@ def BlogAttent():
 @app.route('/Blog-publier/<int:id>/Ajout')
 def BlogPublierAjout(id):
     Blog = db.get_or_404(PostAttent, id)
+    Nbcomments=Comments.query.count()
+
     newBlog=Postpublie(title=Blog.title,body=Blog.body,Nom=Blog.Nom, image=Blog.image)
     blogdelete=db.get_or_404(PostAttent, id)
     db.session.delete(blogdelete)

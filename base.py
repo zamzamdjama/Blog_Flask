@@ -61,7 +61,7 @@ with app.app_context():
     
 
 
-
+# Create table Postpublie
 
 class Postpublie(db.Model):
     __searchable__ = ['title', 'body']
@@ -72,7 +72,7 @@ class Postpublie(db.Model):
     Nom = db.Column(db.String(200), unique=True, nullable=False)
     image = db.Column(db.String(150))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    comments = db.Column(db.Integer,default=0)
+    # comments = db.Column(db.Integer,default=0)
 
 
 def __init__(self, title, body, Nom,image ,date_pub):
@@ -87,7 +87,7 @@ with app.app_context():
 
 
 
-# table comments
+# create table comments
 class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False, nullable=False)
