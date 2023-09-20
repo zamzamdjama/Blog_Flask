@@ -115,23 +115,33 @@ def addpost():
         return redirect('/posts')
     
     user = User.query.filter_by(email=session['email']).first()
-    return render_template('createpost.html', titre='Djib Blogger -  création des articles', user=user)
+    return render_template('createpost.html', titre="Djib Blogger - création des articles", user=user)
 
 
 # posts
 @app.route('/posts')
 def posts():
     # post=Postpublie.query.get_or_404(id)
-    posts= Postpublie.query.all()
-    comments=Comments.query.all()
-    nombrecomment=Comments.query.count()
+    posts = Postpublie.query.order_by(Postpublie.id.desc()).all()
+    comments = Comments.query.order_by(Comments.id.desc()).all()
+    # post = Postpublie.query.filter_by(id=id).first()
+    
+    # nombrecomment= Comments.query.filter_by(comments=posts.id).count() 
+    # Nbcomment=Comments.query.count()
+    # Nbcomment=Comments.query.filter_by(post_id=Postpublie.id).count()
+    
 
-    return render_template('posts.html',title='Djib Blogger - Articles', posts=posts, comments=comments, nombrecomment=nombrecomment)    
+    return render_template('posts.html',title='Djib Blogger - Articles', posts=posts, comments=comments)    
 
 
 @app.route('/posts/<int:post_id>',methods=["GET","POST"])
 def comments(post_id):
     
+    post=Postpublie.query.get_or_404(post_id)
+    posts = Postpublie.query.order_by(Postpublie.id.desc()).all()
+    comments = Comments.query.filter_by(post_id=Postpublie.id).all()
+    
+   
     try:
 
         if request.method == "POST":
@@ -139,50 +149,16 @@ def comments(post_id):
             email=request.form.get('email')
             message = request.form.get('message')
             post_id=post_id
-            comments=Comments(name=name,email=email,message=message, post_id=post_id)
+            comment=Comments(name=name,email=email,message=message, post_id=post_id)
             db.session.add(comments)
+            Nbcomment=Comments.query.filter_by(post_id=post.id).count()
+            # post.comments += 1
             db.session.commit()
-            # flash('Your comment has submitted','success')
-            
-            return redirect('/posts')
+           
+            return redirect('/posts' , post=post, Nbcomment=Nbcomment )
     except:
         pass
     return render_template('comments.html')  
-
-# Comments
-# @app.route('/comments/<int:id>',methods=["GET","POST"])
-# def addcomments(id):
-#     try:
-        
-#         if request.method== "POST":
-#             name = request.form['nom']
-#             email=request.form['email']
-#             message = request.form['message']
-#             id=id
-        
-#             comment=Comments(name=name,email=email,message=message, id=id)
-#             db.session.add(comment)
-#             db.session.commit()
-#             return url_for('posts')
-#     except:
-#         pass   
-      
-    
-    
-#     return render_template('comments.html')
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -314,8 +290,7 @@ def BlogAttent():
 @app.route('/Blog-publier/<int:id>/Ajout')
 def BlogPublierAjout(id):
     Blog = db.get_or_404(PostAttent, id)
-    Nbcomments=Comments.query.count()
-
+    
     newBlog=Postpublie(title=Blog.title,body=Blog.body,Nom=Blog.Nom, image=Blog.image)
     blogdelete=db.get_or_404(PostAttent, id)
     db.session.delete(blogdelete)
@@ -335,9 +310,9 @@ def BlogPublier():
 
 @app.route('/Blog-rejeter/<int:id>/delete')
 def BlogrejeterAjoutP(id):
-    Blog = db.get_or_404(Postpublie, id)
+    Blog = db.get_or_404(PostAttent, id)
     newBlog=PostRejeter(title=Blog.title,body=Blog.body,Nom=Blog.Nom, image=Blog.image)
-    blogdelete=db.get_or_404(Postpublie, id)
+    blogdelete=db.get_or_404(PostAttent, id)
     db.session.delete(blogdelete)
     db.session.add(newBlog)
     db.session.commit()

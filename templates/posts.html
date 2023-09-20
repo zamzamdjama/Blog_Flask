@@ -1,73 +1,82 @@
 {% extends 'base.html'%}
 
+{% block title %} {{ titre }} {% endblock %}  
+
 {% block content %}
 
-<div class="card container-fluid p-5" >
-  {% for post in posts %}
-  <img src="{{url_for('static', filename='images/' +post.image)}}" class="card-img-top" alt="...">
-  <div class="card-body">
-    
-    <h1 class="card-title text-capitalize text-success">{{post.title}}</h1>
-    <p class="card-text text-secondary" style="font-family: Arial, Helvetica, sans-serif; font-size: 18px" > {{post.body}} </p>
-    <p class="card-text"style="font-family: Arial, Helvetica, sans-serif; font-size: 18px"  ><small class="text-body-secondary">created in {{post.date_pub}} <h4>{{post.Nom}}</b> </small></h4>
-  </div>
-  
-  <div>
-    <span class="text-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-      <i class="fas fa-comments mx-2"></i> Commenter </span>
-      <button type="button" class="btn btn-primary position-relative mx-5" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
-        Commentaires
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-          {{ nombrecomment }}
-       
-        </span>
-      </button>
-  </div>
+<div class="p-5 my-5">
 
-  <div class="collapse" id="collapseExample2">
-    {% for comment in comments %}
-    <p>
-      {{ comment.name }}
-    </p>
-    <p>
-      {{ comment.email }}
-    </p>
-    <p>
-      {{ comment.message }}
-    </p>
+ <h1 class="border-bottom text-center">Tous les articles </h1>
+  <div class=" container-fluid mt-3 " >
+    {% for post in posts %}
+    <img src="{{url_for('static', filename='images/' +post.image)}}" class="card-img-top" alt="...">
+    <div class="card-body mt-2">
+      
+      <h1 class="card-title text-capitalize text-success mt-2">{{post.title}}</h1>
+      <p class="card-text mt-2 text-justify" style="font-family: Verdana, Geneva, Tahoma, sans-serif;"> {{post.body}} </p>
+      <p class="card-text mt-2 "style="font-family: Arial, Helvetica, sans-serif; font-size: 20px"  ><small class="text-body-secondary">created in {{ post.date_pub.strftime('%d-%m-%Y')}}  </small>
+        <h3> {{post.Nom}} </h3>
+    </div>
+    
+    <div>
+      <span class="text-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <i class="fas fa-comments mx-2"></i> Commenter </span>
+        <button type="button" class="btn btn-primary position-relative mx-5 mb-3" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
+          Commentaires
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+            
+            {{ Nbcomment }}
+         
+          </span>
+        </button>
+    </div>
+  
+    <div class="collapse" id="collapseExample2">
+      {% for comment in post.comments %}
+      <p>
+        {{ comment.name }}
+      </p>
+      <p>
+        {{ comment.email }}
+      </p>
+      <p>
+        {{ comment.message }}
+      </p>
+      {% endfor %}
+    </div>
+    
+    <div class="collapse" id="collapseExample">
+      <form class=" container w-50 my-4 d-block justify-content-end" action="/posts/{{post.id}}" method="POST">
+        <h3 class="fw-bold text-center">Laisser un commentaire pour cette poste</h3>
+        <!-- Name input -->
+        <div class="form-outline mb-4">
+          <input type="text" id="form4Example1" class="form-control" name="nom"/>
+          <label class="form-label" for="form4Example1">Nom</label>
+        </div>
+      
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+          <input type="email" id="form4Example2" class="form-control"  name="email"/>
+          <label class="form-label" for="form4Example2">Email </label>
+        </div>
+      
+        <!-- Message input -->
+        <div class="form-outline mb-4">
+          <textarea class="form-control" id="form4Example3" rows="4" name="message"></textarea>
+          <label class="form-label" for="form4Example3">Message</label>
+        </div>
+    
+      
+        <!-- Submit button -->
+        <input type="submit" class="btn btn-primary btn-block mb-4 px-5 " value=" Envoyer"/>
+         
+        
+      </form>
+     
+    </div>
     {% endfor %}
   </div>
   
-  <div class="collapse" id="collapseExample">
-    <form class=" container my-4" action="/posts/{{post.id}}" method="POST">
-      <h3>Laisser un commentaire pour ce poste</h3>
-      <!-- Name input -->
-      <div class="form-outline mb-4">
-        <input type="text" id="form4Example1" class="form-control" name="nom"/>
-        <label class="form-label" for="form4Example1">Nom</label>
-      </div>
-    
-      <!-- Email input -->
-      <div class="form-outline mb-4">
-        <input type="email" id="form4Example2" class="form-control"  name="email"/>
-        <label class="form-label" for="form4Example2">Email </label>
-      </div>
-    
-      <!-- Message input -->
-      <div class="form-outline mb-4">
-        <textarea class="form-control" id="form4Example3" rows="4" name="message"></textarea>
-        <label class="form-label" for="form4Example3">Message</label>
-      </div>
-  
-    
-      <!-- Submit button -->
-      <input type="submit" class="btn btn-primary btn-block mb-4 px-5 " value=" Envoyer"/>
-       
-      
-    </form>
-   
-  </div>
-  {% endfor %}
 </div>
 
 

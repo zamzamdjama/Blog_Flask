@@ -42,9 +42,9 @@ with app.app_context():
 class Post(db.Model):
     __searchable__ = ['title', 'body']
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), nullable=False)
+    title = db.Column(db.String(200), unique=False, nullable=False)
     body = db.Column(db.Text, nullable=False)
-    Nom = db.Column(db.String(200), unique=True, nullable=False)
+    Nom = db.Column(db.String(200), unique=False, nullable=False)
     image = db.Column(db.String(150))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
@@ -66,21 +66,23 @@ with app.app_context():
 class Postpublie(db.Model):
     __searchable__ = ['title', 'body']
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), unique=True, nullable=False)
+    title = db.Column(db.String(200), unique=False, nullable=False)
     body = db.Column(db.Text, nullable=False)
-    #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    Nom = db.Column(db.String(200), unique=True, nullable=False)
+    
+    Nom = db.Column(db.String(200), unique=False, nullable=False)
     image = db.Column(db.String(150))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     # comments = db.Column(db.Integer,default=0)
+    comments = db.relationship('Comments', backref='postpublie')
+   
 
-
-def __init__(self, title, body, Nom,image ,date_pub):
+def __init__(self, title, body, Nom,image ,date_pub, comments):
     self.title=title
     self.body=body
     self.Nom=Nom
     self.image=image
     self.date_pub=date_pub
+    self.comments=comments
 
 with app.app_context():
     db.create_all()   
@@ -94,7 +96,7 @@ class Comments(db.Model):
     email = db.Column(db.String(200), unique=False, nullable=False)
     message = db.Column(db.Text, nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('postpublie.id', ondelete='CASCADE'), nullable=False)
-    post = db.relationship('Postpublie', backref=db.backref('posts',lazy=True))
+    # post = db.relationship('Postpublie', backref=db.backref('posts',lazy=True))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 def __init__(self, name, email, message,post_id, date_pub):
@@ -111,10 +113,10 @@ with app.app_context():
 class PostAttent(db.Model):
     __searchable__ = ['title', 'body']
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), unique=True, nullable=False)
+    title = db.Column(db.String(200), unique=False, nullable=False)
     body = db.Column(db.Text, nullable=False)
    
-    Nom = db.Column(db.String(200), unique=True, nullable=False)
+    Nom = db.Column(db.String(200), unique=False, nullable=False)
     
     image = db.Column(db.String(150))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -132,10 +134,10 @@ with app.app_context():
 class PostRejeter(db.Model):
     __searchable__ = ['title', 'body']
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), unique=True, nullable=False)
+    title = db.Column(db.String(200), unique=False, nullable=False)
     body = db.Column(db.Text, nullable=False)
     #person_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    Nom = db.Column(db.String(200), unique=True, nullable=False)
+    Nom = db.Column(db.String(200), unique=False, nullable=False)
     
     image = db.Column(db.String(150))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
