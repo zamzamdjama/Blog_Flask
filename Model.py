@@ -129,7 +129,7 @@ def posts():
     return render_template('posts.html',title='Djib Blogger - Articles', posts=posts, comments=comments, nombrecomment=nombrecomment)    
 
 
-@app.route('/posts/<int:post_id>',methods=["GET","POST"])
+@app.route('/comments/<int:post_id>',methods=["GET","POST"])
 def comments(post_id):
     
     # post=Postpublie.query.get_or_404(id)
