@@ -44,65 +44,49 @@
 
   <!-- ======= Header ======= -->
   <header id="header" class="header d-flex align-items-center fixed-top ">
-    <div class="container-fluid container-xl d-flex align-items-center justify-content-between fixed-top my-3">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between fixed-top my-1">
 
       <span  class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="" style="font-family:Arial, Helvetica, sans-serif"> <span class="text-success text-uppercase">Djib</span> Blogger</h1>
+        
+        <h1 class="mt-3"style="font-family: Arial, Helvetica, sans-serif;" > <span class="text-success text-uppercase ">Djib</span> Blogger</h1>
       </span>
 
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a href="/">Accueil</a></li>
-          <li><a href="/posts">Articles</a></li>
-           {% if session['email']==None %} 
-           <li><a href="/login">creer un article</a></li>
-           {%else%}
-          <li><a href="/addpost">creer un article</a></li>
-           {%endif%}
-          <li><a href="/about">A propos de nous</a></li>
-          <li><a href="/contact">Nous contacter</a></li>
+      <nav id="navbar" class="navbar mt-3" >
+        <ul style="font-family: Arial, Helvetica, sans-serif;">
+          <li><a href="/" style="font-family: Arial, Helvetica, sans-serif;">Accueil</a></li>
+          <li><a href="/posts" style="font-family: Arial, Helvetica, sans-serif;">Articles</a></li>
+          
+          <li><a href="/addpost" style="font-family: Arial, Helvetica, sans-serif;">créer un article</a></li>
+           
+          <li><a href="/about" style="font-family: Arial, Helvetica, sans-serif;">A propos de nous</a></li>
+          <li><a href="/contact" style="font-family: Arial, Helvetica, sans-serif;">Nous contacter</a></li>
           {% if session['username']=='ZamZam' and session['email']=='ZamZam@gmail.com'%}
           <li class="nav-item">
-            <a class="nav-link mx-3" href="/NiceAdmin">Table de bord</a>
+            <a class="nav-link mx-3" href="/NiceAdmin" style="font-family: Arial, Helvetica, sans-serif;">Table de bord</a>
           </li>
-          <li><a class="btn btn-outline-danger px-2 mx-3 " href="/logout" >Se déconnecter</a>
+          <li><a class="btn btn-outline-danger px-2 mx-3 " href="/logout" style="font-family: Arial, Helvetica, sans-serif;">Se déconnecter</a>
             {%elif  session['username']%}</li>
 
           <li class="nav-item">
-            <a class="nav-link mx-3" href="">{{session['username']}}</a>
+            <a class="nav-link mx-3" href="" style="font-family: Arial, Helvetica, sans-serif;">{{session['username']}}</a>
           
           </li>  
 
           <a class="btn btn-outline-danger  mx-3 px-2 " href="/logout" >Se déconnecter</a>
     
           {%else%}
-          <li><a href="/login" class="btn btn-success justify-content-center px-5 mx-3 fs-5 text-white">Se connecter</a></li>
-          <!-- <a class="btn btn-success px-3 mx-3 fs-5" href="/login" >Login</a> -->
+          <li><a href="/login" class="btn btn-success justify-content-center mt-2 px-5 mx-3 fs-5 text-white" >Se connecter</a></li>
+          
           {%endif%}
         </ul>
       </nav><!-- .navbar -->
 
       <div class="position-relative">
-        <!-- <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
-        <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
-        <a href="#" class="mx-2"><span class="bi-instagram"></span></a> -->
-
-        <!-- <a href="#" class="mx-2 js-search-open"><span class="bi-search"></span></a> -->
+     
         <i class="bi bi-list mobile-nav-toggle"></i>
 
-        <!-- ======= Search Form ======= -->
-        <!-- <div class="search-form-wrap js-search-form-wrap">
-          <form action="search-result.html" class="search-form">
-            <span class="icon bi-search"></span>
-            <input type="text" placeholder="Search blog" class="form-control" name="search">
-            <button class="btn js-search-close"><span class="bi-x"></span></button>
-          </form>
-        </div>End Search Form -->
 
-        
-
+    
       </div>
 
     </div>
@@ -123,7 +107,7 @@
         <div class="row g-2 d-flex justify-content-between">
           <div class="col-lg-4">
             <h3 class="footer-heading  "><span class="text-capitalize">à propos </span> de Djib Blogger</h3>
-            <p style="font-family: Arial, Helvetica, sans-serif;" ><b style="font-family: Arial, Helvetica, sans-serif;">DjibBlogger</b> est une plateforme dediée pour la création des articles ou blog afin de permettre de permettre aux gens de partager leurs idées via un blog à créer.</p>
+            <p ><b style="font-family: Arial, Helvetica, sans-serif;">DjibBlogger</b> est une plateforme dediée pour la création des articles ou blog afin de permettre aux gens de partager leurs idées via un blog à créer.</p>
             <p>Nous vous invitons de <a href="/login" class=" btn btn-dark text-white">se connecter</a>  ou <a href="/register" class=" btn btn-dark text-white"> créer un compte </a> <br> afin de pouvoir poster un article dans cette plateforme.</p>
             <p><a href="/about" class="footer-link-more">En savoir plus</a></p>
           </div>
@@ -133,74 +117,12 @@
               <li><a href="/"><i class="bi bi-chevron-right"></i> Accueil </a></li>
               <li><a href="/posts"><i class="bi bi-chevron-right"></i> Articles </a></li>
               <li><a href="/addpost"><i class="bi bi-chevron-right"></i> Créer un article </a></li>
-              <!-- <li><a href="category.html"><i class="bi bi-chevron-right"></i> Categories</a></li> -->
-              <!-- <li><a href="single-post.html"><i class="bi bi-chevron-right"></i> Single Post</a></li> -->
+             
               <li><a href="about.html"><i class="bi bi-chevron-right"></i> A propos de Nous</a></li>
               <li><a href="contact.html"><i class="bi bi-chevron-right"></i> Nous Contacter </a></li>
             </ul>
           </div>
-          <!-- <div class="col-6 col-lg-2">
-            <h3 class="footer-heading">Categories</h3>
-            <ul class="footer-links list-unstyled">
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Business</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Culture</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Sport</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Food</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Politics</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Celebrity</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Startups</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Travel</a></li>
-
-            </ul>
-          </div> -->
-
-          <!-- <div class="col-lg-4">
-            <h3 class="footer-heading">Recent Posts</h3>
-
-            <ul class="footer-links footer-blog-entry list-unstyled">
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="/static/assets/img/post-sq-1.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>5 Great Startup Tips for Female Founders</span>
-                  </div>
-                </a>
-              </li>
-
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="/static/assets/img/post-sq-2.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>What is the son of Football Coach John Gruden, Deuce Gruden doing Now?</span>
-                  </div>
-                </a>
-              </li>
-
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="/static/assets/img/post-sq-3.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>Life Insurance And Pregnancy: A Working Mom’s Guide</span>
-                  </div>
-                </a>
-              </li>
-
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="/static/assets/img/post-sq-4.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>How to Avoid Distraction and Stay Focused During Video Calls?</span>
-                  </div>
-                </a>
-              </li>
-
-            </ul>
-
-          </div> -->
+       
         </div>
       </div>
     </div>
