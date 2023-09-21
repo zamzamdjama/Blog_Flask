@@ -81,9 +81,9 @@ def index():
     #  posts = Postpublie.query.order_by(Postpublie.id.desc()).all()
     comments = Comments.query.order_by(Comments.id.desc()).all()
   
-    Nbcomment=Comments.query.count()
+    # Nbcomment=Comments.query.count()
 
-    return render_template('home.html',titre='Djib Blogger - Home', posts=posts, comments=comments, Nbcomment=Nbcomment)
+    return render_template('home.html',titre='Djib Blogger - Home', posts=posts, comments=comments)
 
 
 # about
