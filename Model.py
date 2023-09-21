@@ -121,25 +121,25 @@ def addpost():
 # posts
 @app.route('/posts')
 def posts():
-    # post=Postpublie.query.get_or_404(id)
+  
     posts = Postpublie.query.order_by(Postpublie.id.desc()).all()
     comments = Comments.query.order_by(Comments.id.desc()).all()
-    # post = Postpublie.query.filter_by(id=id).first()
     
-    # nombrecomment= Comments.query.filter_by(comments=posts.id).count() 
-    # Nbcomment=Comments.query.count()
-    # Nbcomment=Comments.query.filter_by(post_id=Postpublie.id).count()
+    
+  
+    Nbcomment=Comments.query.count()
+    
     
 
-    return render_template('posts.html',title='Djib Blogger - Articles', posts=posts, comments=comments)    
+    return render_template('posts.html',title='Djib Blogger - Articles', posts=posts, comments=comments, Nbcomment=Nbcomment)    
 
 
 @app.route('/posts/<int:post_id>',methods=["GET","POST"])
 def comments(post_id):
     
-    post=Postpublie.query.get_or_404(post_id)
-    posts = Postpublie.query.order_by(Postpublie.id.desc()).all()
-    comments = Comments.query.filter_by(post_id=Postpublie.id).all()
+    # post=Postpublie.query.get_or_404(post_id)
+    # posts = Postpublie.query.order_by(Postpublie.id.desc()).all()
+    # comments = Comments.query.filter_by(post_id=Postpublie.id).all()
     
    
     try:
@@ -150,12 +150,12 @@ def comments(post_id):
             message = request.form.get('message')
             post_id=post_id
             comment=Comments(name=name,email=email,message=message, post_id=post_id)
-            db.session.add(comments)
-            Nbcomment=Comments.query.filter_by(post_id=post.id).count()
+            db.session.add(comment)
+            # Nbcomment=Comments.query.filter_by(post_id=post.id).count()
             # post.comments += 1
             db.session.commit()
            
-            return redirect('/posts' , post=post, Nbcomment=Nbcomment )
+            return redirect('/posts')
     except:
         pass
     return render_template('comments.html')  
