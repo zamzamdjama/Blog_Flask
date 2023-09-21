@@ -36,7 +36,7 @@ def login():
             session['email']=user.email
             session['password']=user.password
 
-            return redirect('/addpost')
+            return redirect('/')
         else:
             flash("Votre email ou votre mot de passe est incorrect, Veuiilez réessayez")
             return render_template('login.html')   

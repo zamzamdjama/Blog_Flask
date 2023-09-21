@@ -55,9 +55,11 @@
         <ul style="font-family: Arial, Helvetica, sans-serif;">
           <li><a href="/" style="font-family: Arial, Helvetica, sans-serif;">Accueil</a></li>
           <li><a href="/posts" style="font-family: Arial, Helvetica, sans-serif;">Articles</a></li>
-          
+          {% if session['username'] and session['email']%}
           <li><a href="/addpost" style="font-family: Arial, Helvetica, sans-serif;">créer un article</a></li>
-           
+           {% else %}
+           <li><a href="/login" style="font-family: Arial, Helvetica, sans-serif;">créer un article</a></li>
+           {% endif %}
           <li><a href="/about" style="font-family: Arial, Helvetica, sans-serif;">A propos de nous</a></li>
           <li><a href="/contact" style="font-family: Arial, Helvetica, sans-serif;">Nous contacter</a></li>
           {% if session['username']=='ZamZam' and session['email']=='ZamZam@gmail.com'%}
