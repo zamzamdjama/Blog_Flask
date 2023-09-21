@@ -14,13 +14,12 @@
       
       <h1 class="card-title text-capitalize text-success mt-2">{{post.title}}</h1>
       <p class="card-text mt-2 text-justify" style="font-family: Verdana, Geneva, Tahoma, sans-serif;"> {{post.body}} </p>
-      <p class="card-text mt-2 "style="font-family: Arial, Helvetica, sans-serif; font-size: 20px"  ><small class="text-body-secondary">created in {{ post.date_pub.strftime('%d-%m-%Y')}}  </small>
-        <h3> {{post.Nom}} </h3>
+      <p class="card-text my-3" style="font-family: Arial, Helvetica, sans-serif; font-size: 18px" > <small class="text-body-secondary"> <i class="fa-regular fa-user " style="font-size: 20px;"></i> <span class="text-muted mx-3">{{post.Nom}} </span> <i class='bi bi-calendar3-event'></i>{{ post.date_pub.strftime('%d-%m-%Y')}}  </small>
     </div>
     
     <div>
       <span class="text-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-        <i class="fas fa-comments mx-2"></i> Commenter </span>
+        <i class='bi bi-chat'></i> Commenter </span>
         <button type="button" class="btn btn-primary position-relative mx-5 mb-3" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
           Commentaires
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
@@ -31,16 +30,17 @@
         </button>
     </div>
   
-    <div class="collapse" id="collapseExample2">
+    <div class="collapse container-fluid " id="collapseExample2">
       {% for comment in post.comments %}
       <p>
-        {{ comment.name }}
+        <p class="text-capitalize fw-bold"  style="font-family: Arial, Helvetica, sans-serif;"> <i class="fa-regular fa-user mx-3" style="font-size: 20px;"></i> <span>{{ comment.name }}</span> </p>
       </p>
-      <p>
-        {{ comment.email }}
-      </p>
-      <p>
+    
+      <p class=" w-50 p-2 mx-4">
         {{ comment.message }}
+      </p>
+      <p class="mx-3">
+        {{ post.date_pub.strftime('%d-%m-%Y') }}
       </p>
       {% endfor %}
     </div>

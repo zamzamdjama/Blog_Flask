@@ -90,8 +90,19 @@ def about():
 
 
 # contact
-@app.route('/contact')
+@app.route('/contact',methods=["GET","POST"])
 def contact():
+    if request.method== "POST":
+        name = request.form['name']
+        email=request.form['email']
+        subject = request.form['subject']
+        message = request.form['message']
+
+        contact=Contact(name=name,email=email,subject=subject, message=message)
+        db.session.add(contact)
+        db.session.commit()
+        return redirect('/contact')
+
     return render_template('contact.html',titre='Djib Blogger - Contact')
 
 

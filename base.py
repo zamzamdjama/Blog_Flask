@@ -109,6 +109,27 @@ def __init__(self, name, email, message,post_id, date_pub):
 with app.app_context():
     db.create_all()   
 
+
+# create table Contact
+class Contact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=False, nullable=False)
+    email = db.Column(db.String(200), unique=False, nullable=False)
+    subject = db.Column(db.String(200), unique=False, nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+def __init__(self, name, email, message,subject, date_pub):
+    self.name=name
+    self.email=email
+    self.subject=subject
+    self.message=message
+    self.date_pub=date_pub
+
+with app.app_context():
+    db.create_all()   
+
+
     
 class PostAttent(db.Model):
     __searchable__ = ['title', 'body']
