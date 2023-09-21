@@ -76,14 +76,72 @@
           <div><a href="/posts" class="more">voir tous les articles</a></div>
         </div>
 
-        <div class="container-fluid my-3">
+        <div class=" container-fluid mt-3 " >
           {% for post in posts %}
           <img src="{{url_for('static', filename='images/' +post.image)}}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h1 class="card-title text-capitalize text-success">{{post.title}}</h1>
-            <p class="card-text " style="font-family: Verdana, Geneva, Tahoma, sans-serif;"> {{post.body}} </p>
-            <p class="card-text"style="font-family: Arial, Helvetica, sans-serif; font-size: 20px"  ><small class="text-body-secondary">created in {{ post.date_pub.strftime('%d-%m-%Y')}} </small>
-              <h3>{{post.Nom}}</h3>
+          <div class="card-body mt-2">
+            
+            <h1 class="card-title text-capitalize text-success mt-2">{{post.title}}</h1>
+            <p class="card-text mt-2 text-justify" style="font-family: Verdana, Geneva, Tahoma, sans-serif;"> {{post.body}} </p>
+            <p class="card-text my-3" style="font-family: Arial, Helvetica, sans-serif; font-size: 18px" > <small class="text-body-secondary"> <i class="fa-regular fa-user " style="font-size: 20px;"></i> <span class="text-muted mx-1">{{post.Nom}} </span> <i class='bi bi-calendar3-event  mx-2'></i>{{ post.date_pub.strftime('%d-%m-%Y')}}  </small>
+          </div>
+          
+          <div>
+            <span class="text-success" style="font-size: 20px;" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <i class='bi bi-chat text-success fs-3 mx-2'></i> Commenter </span>
+              <button type="button" class="btn btn-primary position-relative mx-5 mb-3" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
+                Commentaires
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                  
+                  {{ Nbcomment }}
+               
+                </span>
+              </button>
+          </div>
+        
+          <div class="collapse container-fluid " id="collapseExample2">
+            {% for comment in post.comments %}
+            <p>
+              <p class="text-capitalize fw-bold"  style="font-family: Arial, Helvetica, sans-serif;"> <i class="fa-regular fa-user mx-3" style="font-size: 20px;"></i> <span>{{ comment.name }}</span> </p>
+            </p>
+          
+            <p class=" w-50 p-2 mx-4">
+              {{ comment.message }}
+            </p>
+            <p class="mx-3">
+              {{ post.date_pub.strftime('%d-%m-%Y') }}
+            </p>
+            {% endfor %}
+          </div>
+          
+          <div class="collapse" id="collapseExample">
+            <form class=" container w-50 my-4 d-block justify-content-end" action="/posts/{{post.id}}" method="POST">
+              <h3 class="fw-bold text-center">Laisser un commentaire pour cette poste</h3>
+              <!-- Name input -->
+              <div class="form-outline mb-4">
+                <input type="text" id="form4Example1" class="form-control" name="nom"/>
+                <label class="form-label" for="form4Example1">Nom</label>
+              </div>
+            
+              <!-- Email input -->
+              <div class="form-outline mb-4">
+                <input type="email" id="form4Example2" class="form-control"  name="email"/>
+                <label class="form-label" for="form4Example2">Email </label>
+              </div>
+            
+              <!-- Message input -->
+              <div class="form-outline mb-4">
+                <textarea class="form-control" id="form4Example3" rows="4" name="message"></textarea>
+                <label class="form-label" for="form4Example3">Message</label>
+              </div>
+          
+            
+              <!-- Submit button -->
+              <input type="submit" class="btn btn-primary btn-block mb-4 px-5 " value=" Envoyer"/>
+               
+              
+            </form>
+           
           </div>
           {% endfor %}
         </div>

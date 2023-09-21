@@ -78,13 +78,19 @@ def logout():
 @app.route('/')
 def index():
     posts= Postpublie.query.order_by(Postpublie.id.desc()).limit(10) 
-    return render_template('home.html',titre='Djib Blogger - Home', posts=posts)
+    #  posts = Postpublie.query.order_by(Postpublie.id.desc()).all()
+    comments = Comments.query.order_by(Comments.id.desc()).all()
+  
+    Nbcomment=Comments.query.count()
+
+    return render_template('home.html',titre='Djib Blogger - Home', posts=posts, comments=comments, Nbcomment=Nbcomment)
 
 
 # about
 @app.route('/about')
 def about():
-   return render_template('about.html',titre='Djib Blogger - About')
+    posts= Postpublie.query.order_by(Postpublie.id.desc()).limit(3) 
+    return render_template('about.html',titre='Djib Blogger - About', posts=posts)
 
 
 
@@ -106,6 +112,14 @@ def contact():
     return render_template('contact.html',titre='Djib Blogger - Contact')
 
 
+
+
+@app.route('/contacts')
+def contacts():
+   
+   contacts = Contact.query.order_by(Contact.id.desc()).all()
+   
+   return render_template('NiceAdmin/contacts.html',titre='Djib Blogger - contacts', contacts=contacts)
 
 
 
